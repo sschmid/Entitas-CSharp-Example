@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 
     void Start() {
         var repo = new EntityRepository(ComponentIds.TotalComponents);
+        Random.seed = 42;
         createSystems(repo);
         createCubes(repo);
         createFinishLine(repo);
@@ -26,14 +27,14 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < 10; i++) {
             var e = repo.CreateEntity();
             e.AddResource(resourceName);
-            e.AddPosition(i, 0, 0);
+            e.AddPosition(i, Random.value * 2, 0);
             e.isMovable = true;
         }
     }
 
     void createFinishLine(EntityRepository repo) {
-        repo.isFinishLine = true;
-        var finishLine = repo.finishLineEntity;
+        var finishLine = repo.CreateEntity();
+        finishLine.isFinishLine = true;
         finishLine.AddResource("Finish Line");
         finishLine.AddPosition(4.5f, 3.5f, 0);
     }

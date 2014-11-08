@@ -14,10 +14,6 @@ namespace Entitas {
             AddResource(component);
         }
 
-        public void ReplaceResource(ResourceComponent component) {
-            ReplaceComponent(ComponentIds.Resource, component);
-        }
-
         public void ReplaceResource(string newName) {
             ResourceComponent component;
             if (hasResource) {
@@ -27,7 +23,7 @@ namespace Entitas {
                 component = new ResourceComponent();
             }
             component.name = newName;
-            ReplaceResource(component);
+            ReplaceComponent(ComponentIds.Resource, component);
         }
 
         public void RemoveResource() {

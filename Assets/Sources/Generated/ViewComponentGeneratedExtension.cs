@@ -14,10 +14,6 @@ namespace Entitas {
             AddView(component);
         }
 
-        public void ReplaceView(ViewComponent component) {
-            ReplaceComponent(ComponentIds.View, component);
-        }
-
         public void ReplaceView(UnityEngine.GameObject newGameObject) {
             ViewComponent component;
             if (hasView) {
@@ -27,7 +23,7 @@ namespace Entitas {
                 component = new ViewComponent();
             }
             component.gameObject = newGameObject;
-            ReplaceView(component);
+            ReplaceComponent(ComponentIds.View, component);
         }
 
         public void RemoveView() {
