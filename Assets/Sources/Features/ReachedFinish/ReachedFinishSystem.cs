@@ -16,9 +16,9 @@ public class ReachedFinishSystem : IReactiveSubEntitySystem, ISetEntityRepositor
     }
 
     public void Execute(Entity[] entities) {
-        var finishLine = _repo.finishLineEntity;
+        var finishLinePosY = _repo.finishLineEntity.position.y;
         foreach (var e in entities) {
-            if (e.position.y > finishLine.position.y) {
+            if (e.position.y > finishLinePosY) {
                 _repo.DestroyEntity(e);
             }
         }

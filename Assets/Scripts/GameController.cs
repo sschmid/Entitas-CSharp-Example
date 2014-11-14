@@ -14,9 +14,10 @@ public class GameController : MonoBehaviour {
 
     void createSystems(EntityRepository repo) {
         _systems = new [] {
-            repo.CreateSystem<RenderSpawnSystem>(),
             repo.CreateSystem<MoveSystem>(),
             repo.CreateSystem<ReachedFinishSystem>(),
+
+            repo.CreateSystem<RenderSpawnSystem>(),
             repo.CreateSystem<RenderPositionSystem>(),
             repo.CreateSystem<RenderDespawnSystem>()
         };
