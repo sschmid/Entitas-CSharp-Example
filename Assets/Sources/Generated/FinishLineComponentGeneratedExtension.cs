@@ -40,7 +40,7 @@ namespace Entitas {
         public static AllOfEntityMatcher FinishLine {
             get {
                 if (_matcherFinishLine == null) {
-                    _matcherFinishLine = EntityMatcher.AllOf(new [] { ComponentIds.FinishLine });
+                    _matcherFinishLine = Matcher.AllOf(new [] { ComponentIds.FinishLine });
                 }
 
                 return _matcherFinishLine;

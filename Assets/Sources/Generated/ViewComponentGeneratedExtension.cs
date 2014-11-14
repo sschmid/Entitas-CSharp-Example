@@ -37,7 +37,7 @@ namespace Entitas {
         public static AllOfEntityMatcher View {
             get {
                 if (_matcherView == null) {
-                    _matcherView = EntityMatcher.AllOf(new [] { ComponentIds.View });
+                    _matcherView = Matcher.AllOf(new [] { ComponentIds.View });
                 }
 
                 return _matcherView;

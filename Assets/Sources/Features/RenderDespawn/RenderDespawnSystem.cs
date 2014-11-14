@@ -2,8 +2,8 @@
 using UnityEngine;
 
 public class RenderDespawnSystem : IReactiveSubEntityWillBeRemovedSystem {
-    public int GetTriggeringIndex() {
-        return ComponentIds.View;
+    public AllOfEntityMatcher GetTriggeringMatcher() {
+        return Matcher.View;
     }
 
     public void Execute(EntityComponentPair[] pairs) {

@@ -37,7 +37,7 @@ namespace Entitas {
         public static AllOfEntityMatcher Resource {
             get {
                 if (_matcherResource == null) {
-                    _matcherResource = EntityMatcher.AllOf(new [] { ComponentIds.Resource });
+                    _matcherResource = Matcher.AllOf(new [] { ComponentIds.Resource });
                 }
 
                 return _matcherResource;
