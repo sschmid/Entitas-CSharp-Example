@@ -2,3 +2,7 @@
 *.csproj
 CurrentLayout.dwlt
 CurrentMaximizeLayout.dwlt
+Library/GiCache
+shadercompiler-64bit*
+Library/ShaderCache
+ShaderCache.db
