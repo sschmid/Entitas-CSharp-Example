@@ -19,7 +19,7 @@ public class ReachedFinishSystem : IReactiveSubEntitySystem, ISetEntityRepositor
         var finishLinePosY = _repo.finishLineEntity.position.y;
         foreach (var e in entities) {
             if (e.position.y > finishLinePosY) {
-                _repo.DestroyEntity(e);
+                e.isDestroy = true;
             }
         }
     }

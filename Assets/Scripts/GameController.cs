@@ -8,28 +8,43 @@ public class GameController : MonoBehaviour {
         var repo = new EntityRepository(ComponentIds.TotalComponents);
         Random.seed = 42;
         createSystems(repo);
-        createCubes(repo);
+        createPlayer(repo);
+        createOpponents(repo);
         createFinishLine(repo);
     }
 
     void createSystems(EntityRepository repo) {
         _systems = new [] {
+            repo.CreateSystem<InputSystem>(),
+            repo.CreateSystem<ProcessInputSystem>(),
+
             repo.CreateSystem<MoveSystem>(),
             repo.CreateSystem<ReachedFinishSystem>(),
 
             repo.CreateSystem<RenderSpawnSystem>(),
             repo.CreateSystem<RenderPositionSystem>(),
-            repo.CreateSystem<RenderDespawnSystem>()
+            repo.CreateSystem<RenderDespawnSystem>(),
+
+            repo.CreateSystem<DestroySystem>()
         };
     }
 
-    void createCubes(EntityRepository repo) {
-        const string resourceName = "Cube";
-        for (int i = 0; i < 10; i++) {
+    void createPlayer(EntityRepository repo) {
+        var e = repo.CreateEntity();
+        e.AddResource("Player");
+        e.AddPosition(0, 0, 0);
+        e.AddMove(0, 0.02f);
+        e.isInputControlled = true;
+    }
+
+    void createOpponents(EntityRepository repo) {
+        const string resourceName = "Opponent";
+        for (int i = 1; i < 10; i++) {
             var e = repo.CreateEntity();
             e.AddResource(resourceName);
-            e.AddPosition(i, Random.value * 2, 0);
-            e.isMovable = true;
+            e.AddPosition(i, 0, 0);
+            var speed = Random.value * 0.01f;
+            e.AddMove(speed, speed);
         }
     }
 

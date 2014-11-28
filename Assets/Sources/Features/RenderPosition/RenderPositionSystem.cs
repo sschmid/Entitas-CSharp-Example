@@ -12,10 +12,8 @@ public class RenderPositionSystem : IReactiveSubEntitySystem {
 
     public void Execute(Entity[] entities) {
         foreach (var e in entities) {
-            if (e.hasView) {
-                var pos = e.position;
-                e.view.gameObject.transform.position = new Vector3(pos.x, pos.y, pos.z);
-            }
+            var pos = e.position;
+            e.view.gameObject.transform.position = new Vector3(pos.x, pos.y, pos.z);
         }
     }
 }

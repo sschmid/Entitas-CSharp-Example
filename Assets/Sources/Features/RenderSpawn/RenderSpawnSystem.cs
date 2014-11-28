@@ -15,7 +15,7 @@ public class RenderSpawnSystem : IReactiveSubEntitySystem {
     public void Execute(Entity[] entities) {
         foreach (var e in entities) {
             var res = Resources.Load<GameObject>(e.resource.name);
-            var gameObject = (GameObject)Object.Instantiate(res);
+            var gameObject = Object.Instantiate(res);
             gameObject.transform.parent = _container;
             e.AddView(gameObject);
         }
