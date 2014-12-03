@@ -9,7 +9,7 @@ public class InputSystem : IEntitySystem, ISetEntityRepository {
     }
 
     public void Execute() {
-        _repo.isInputAccelerate = Input.GetMouseButton(0);
+        _repo.isAccelerate = Input.GetMouseButton(0);
     }
 }
 

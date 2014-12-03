@@ -2,54 +2,56 @@
 using Entitas;
 
 public class GameController : MonoBehaviour {
+    EntityRepository _repo;
+
     IEntitySystem[] _systems;
 
     void Start() {
-        var repo = new EntityRepository(ComponentIds.TotalComponents);
         Random.seed = 42;
-        createSystems(repo);
-        createPlayer(repo);
-        createOpponents(repo);
-        createFinishLine(repo);
+        _repo = new EntityRepository(ComponentIds.TotalComponents);
+        createSystems();
+        createPlayer();
+        createOpponents();
+        createFinishLine();
     }
 
-    void createSystems(EntityRepository repo) {
+    void createSystems() {
         _systems = new [] {
-            repo.CreateSystem<InputSystem>(),
-            repo.CreateSystem<ProcessInputSystem>(),
+            _repo.CreateSystem<InputSystem>(),
 
-            repo.CreateSystem<MoveSystem>(),
-            repo.CreateSystem<ReachedFinishSystem>(),
+            _repo.CreateSystem<AccelerateSystem>(),
+            _repo.CreateSystem<MoveSystem>(),
+            _repo.CreateSystem<ReachedFinishSystem>(),
 
-            repo.CreateSystem<RenderSpawnSystem>(),
-            repo.CreateSystem<RenderPositionSystem>(),
-            repo.CreateSystem<RenderDespawnSystem>(),
+            _repo.CreateSystem<RenderSpawnSystem>(),
+            _repo.CreateSystem<RenderPositionSystem>(),
 
-            repo.CreateSystem<DestroySystem>()
+            _repo.CreateSystem<DestroySystem>(),
+            _repo.CreateSystem<RenderDespawnSystem>()
         };
     }
 
-    void createPlayer(EntityRepository repo) {
-        var e = repo.CreateEntity();
+    void createPlayer() {
+        var e = _repo.CreateEntity();
         e.AddResource("Player");
         e.AddPosition(0, 0, 0);
-        e.AddMove(0, 0.02f);
-        e.isInputControlled = true;
+        e.AddMove(0, 0.025f);
+        e.isAcceleratable = true;
     }
 
-    void createOpponents(EntityRepository repo) {
+    void createOpponents() {
         const string resourceName = "Opponent";
         for (int i = 1; i < 10; i++) {
-            var e = repo.CreateEntity();
+            var e = _repo.CreateEntity();
             e.AddResource(resourceName);
             e.AddPosition(i, 0, 0);
-            var speed = Random.value * 0.01f;
+            var speed = Random.value * 0.02f;
             e.AddMove(speed, speed);
         }
     }
 
-    void createFinishLine(EntityRepository repo) {
-        var finishLine = repo.CreateEntity();
+    void createFinishLine() {
+        var finishLine = _repo.CreateEntity();
         finishLine.isFinishLine = true;
         finishLine.AddResource("Finish Line");
         finishLine.AddPosition(4.5f, 3.5f, 0);

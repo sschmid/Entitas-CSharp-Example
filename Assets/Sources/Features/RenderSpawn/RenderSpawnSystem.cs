@@ -10,13 +10,13 @@ public class RenderSpawnSystem : IReactiveSubEntitySystem {
         return EntityCollectionEventType.OnEntityAdded;
     }
 
-    readonly Transform _container = new GameObject("Cubes").transform;
+    readonly Transform _viewContainer = new GameObject("Views").transform;
 
     public void Execute(Entity[] entities) {
         foreach (var e in entities) {
             var res = Resources.Load<GameObject>(e.resource.name);
             var gameObject = Object.Instantiate(res);
-            gameObject.transform.parent = _container;
+            gameObject.transform.parent = _viewContainer;
             e.AddView(gameObject);
         }
     }
