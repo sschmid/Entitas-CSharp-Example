@@ -6,23 +6,22 @@ using System.Linq;
 
 namespace Entitas.CodeGenerator {
     public static class EntitasCodeGenerator {
-        public static string generatedFolder = "Generated/";
         public const string componentSuffix = "Component";
 
-        public static void Generate(Assembly assembly) {
-            if (!Directory.Exists(generatedFolder)) {
-                Directory.CreateDirectory(generatedFolder);
+        public static void Generate(Assembly assembly, string dir) {
+            if (!Directory.Exists(dir)) {
+                Directory.CreateDirectory(dir);
             }
 
-            CleanGeneratedFolder();
+            CleanDir(dir);
             var components = GetComponents(assembly.GetTypes());
-            generateIndicesLookup(components);
-            generateComponentExtensions(components);
+            generateIndicesLookup(dir, components);
+            generateComponentExtensions(dir, components);
         }
 
-        public static void CleanGeneratedFolder() {
-            if (Directory.Exists(generatedFolder)) {
-                FileInfo[] files = new DirectoryInfo(generatedFolder).GetFiles("*.cs");
+        public static void CleanDir(string dir) {
+            if (Directory.Exists(dir)) {
+                FileInfo[] files = new DirectoryInfo(dir).GetFiles("*.cs");
                 foreach (var file in files) {
                     try {
                         File.Delete(file.FullName);
@@ -34,31 +33,26 @@ namespace Entitas.CodeGenerator {
         }
 
         public static Type[]GetComponents(Type[] types) {
-            List<Type> components = new List<Type>();
-            foreach (var type in types) {
-                if (type.GetInterfaces().Contains(typeof(IComponent))) {
-                    components.Add(type);
-                }
-            }
-
-            return components.ToArray();
+            return types
+                .Where(type => type.GetInterfaces().Contains(typeof(IComponent)))
+                .ToArray();
         }
 
-        static void generateIndicesLookup(Type[] components) {
+        static void generateIndicesLookup(string dir, Type[] components) {
             var generator = new IndicesLookupGenerator();
             var lookups = generator.GenerateIndicesLookup(components);
-            writeFiles(lookups);
+            writeFiles(dir, lookups);
         }
 
-        static void generateComponentExtensions(Type[] components) {
+        static void generateComponentExtensions(string dir, Type[] components) {
             var generator = new ComponentExtensionsGenerator();
             var extensions = generator.GenerateComponentExtensions(components);
-            writeFiles(extensions);
+            writeFiles(dir, extensions);
         }
 
-        static void writeFiles(Dictionary<string, string> files) {
+        static void writeFiles(string dir, Dictionary<string, string> files) {
             foreach (var entry in files) {
-                var filePath = generatedFolder + entry.Key + ".cs";
+                var filePath = dir + entry.Key + ".cs";
                 var code = entry.Value;
                 write(filePath, code);
             }
@@ -83,6 +77,14 @@ namespace Entitas.CodeGenerator {
             }
 
             return type.Name;
+        }
+
+        public static string UppercaseFirst(this string str) {
+            return char.ToUpper(str[0]) + str.Substring(1);
+        }
+
+        public static string LowercaseFirst(this string str) {
+            return char.ToLower(str[0]) + str.Substring(1);
         }
     }
 }
