@@ -2,6 +2,6 @@
 using Entitas.CodeGenerator;
 
 [SingleEntity]
-public class AccelerateComponent : IComponent {
+public class AcceleratingComponent : IComponent {
 }
 

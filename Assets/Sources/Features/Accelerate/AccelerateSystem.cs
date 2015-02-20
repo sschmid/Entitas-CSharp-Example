@@ -2,7 +2,7 @@
 
 public class AccelerateSystem : IReactiveSystem, ISetPool {
     public IMatcher GetTriggeringMatcher() {
-        return Matcher.Accelerate;
+        return Matcher.Accelerating;
     }
 
     public GroupEventType GetEventType() {
@@ -16,7 +16,7 @@ public class AccelerateSystem : IReactiveSystem, ISetPool {
     }
 
     public void Execute(Entity[] entities) {
-        var accelerate = entities.SingleEntity().isAccelerate;
+        var accelerate = entities.SingleEntity().isAccelerating;
         foreach (var e in _group.GetEntities()) {
             var move = e.move;
             var speed = accelerate ? move.maxSpeed : 0;
