@@ -1,17 +1,17 @@
 ﻿using Entitas;
 
-public class DestroySystem : IEntitySystem, ISetEntityRepository {
-    EntityRepository _repo;
-    EntityCollection _collection;
+public class DestroySystem : IExecuteSystem, ISetPool {
+    Pool _pool;
+    Group _group;
 
-    public void SetEntityRepository(EntityRepository repo) {
-        _repo = repo;
-        _collection = repo.GetCollection(Matcher.Destroy);
+    public void SetPool(Pool pool) {
+        _pool = pool;
+        _group = pool.GetGroup(Matcher.Destroy);
     }
 
     public void Execute() {
-        foreach (var e in _collection.GetEntities()) {
-            _repo.DestroyEntity(e);
+        foreach (var e in _group.GetEntities()) {
+            _pool.DestroyEntity(e);
         }
     }
 }

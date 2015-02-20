@@ -17,9 +17,9 @@ namespace Entitas {
     }
 
     public static partial class Matcher {
-        static AllOfEntityMatcher _matcherDestroy;
+        static AllOfMatcher _matcherDestroy;
 
-        public static AllOfEntityMatcher Destroy {
+        public static AllOfMatcher Destroy {
             get {
                 if (_matcherDestroy == null) {
                     _matcherDestroy = Matcher.AllOf(new [] { ComponentIds.Destroy });

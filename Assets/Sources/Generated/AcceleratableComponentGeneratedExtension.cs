@@ -17,9 +17,9 @@ namespace Entitas {
     }
 
     public static partial class Matcher {
-        static AllOfEntityMatcher _matcherAcceleratable;
+        static AllOfMatcher _matcherAcceleratable;
 
-        public static AllOfEntityMatcher Acceleratable {
+        public static AllOfMatcher Acceleratable {
             get {
                 if (_matcherAcceleratable == null) {
                     _matcherAcceleratable = Matcher.AllOf(new [] { ComponentIds.Acceleratable });

@@ -1,16 +1,14 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class RenderDespawnSystem : IReactiveSubEntityWillBeRemovedSystem {
-    public AllOfEntityMatcher GetTriggeringMatcher() {
-        return Matcher.View;
+public class RenderDespawnSystem : ISystem, ISetPool {
+
+    public void SetPool(Pool pool) {
+        pool.GetGroup(Matcher.View).OnEntityWillBeRemoved += onEntityWillBeRemoved;
     }
 
-    public void Execute(EntityComponentPair[] pairs) {
-        foreach (var pair in pairs) {
-            var view = (ViewComponent)pair.component;
-            Object.Destroy(view.gameObject);
-        }
+    void onEntityWillBeRemoved(Group group, Entity entity) {
+        Object.Destroy(entity.view.gameObject);
     }
 }
 

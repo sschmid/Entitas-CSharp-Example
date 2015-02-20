@@ -1,13 +1,13 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class RenderPositionSystem : IReactiveSubEntitySystem {
-    public IEntityMatcher GetTriggeringMatcher() {
+public class RenderPositionSystem : IReactiveSystem {
+    public IMatcher GetTriggeringMatcher() {
         return Matcher.AllOf(Matcher.View, Matcher.Position);
     }
 
-    public EntityCollectionEventType GetEventType() {
-        return EntityCollectionEventType.OnEntityAdded;
+    public GroupEventType GetEventType() {
+        return GroupEventType.OnEntityAdded;
     }
 
     public void Execute(Entity[] entities) {

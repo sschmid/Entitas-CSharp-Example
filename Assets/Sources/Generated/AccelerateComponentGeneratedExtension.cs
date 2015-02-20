@@ -16,8 +16,8 @@ namespace Entitas {
         }
     }
 
-    public partial class EntityRepository {
-        public Entity accelerateEntity { get { return GetCollection(Matcher.Accelerate).GetSingleEntity(); } }
+    public partial class Pool {
+        public Entity accelerateEntity { get { return GetGroup(Matcher.Accelerate).GetSingleEntity(); } }
 
         public bool isAccelerate {
             get { return accelerateEntity != null; }
@@ -35,9 +35,9 @@ namespace Entitas {
     }
 
     public static partial class Matcher {
-        static AllOfEntityMatcher _matcherAccelerate;
+        static AllOfMatcher _matcherAccelerate;
 
-        public static AllOfEntityMatcher Accelerate {
+        public static AllOfMatcher Accelerate {
             get {
                 if (_matcherAccelerate == null) {
                     _matcherAccelerate = Matcher.AllOf(new [] { ComponentIds.Accelerate });

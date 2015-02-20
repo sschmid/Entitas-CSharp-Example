@@ -16,8 +16,8 @@ namespace Entitas {
         }
     }
 
-    public partial class EntityRepository {
-        public Entity finishLineEntity { get { return GetCollection(Matcher.FinishLine).GetSingleEntity(); } }
+    public partial class Pool {
+        public Entity finishLineEntity { get { return GetGroup(Matcher.FinishLine).GetSingleEntity(); } }
 
         public bool isFinishLine {
             get { return finishLineEntity != null; }
@@ -35,9 +35,9 @@ namespace Entitas {
     }
 
     public static partial class Matcher {
-        static AllOfEntityMatcher _matcherFinishLine;
+        static AllOfMatcher _matcherFinishLine;
 
-        public static AllOfEntityMatcher FinishLine {
+        public static AllOfMatcher FinishLine {
             get {
                 if (_matcherFinishLine == null) {
                     _matcherFinishLine = Matcher.AllOf(new [] { ComponentIds.FinishLine });

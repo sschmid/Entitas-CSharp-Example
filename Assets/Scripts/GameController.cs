@@ -2,13 +2,13 @@
 using Entitas;
 
 public class GameController : MonoBehaviour {
-    EntityRepository _repo;
 
-    IEntitySystem[] _systems;
+    Pool _pool;
+    IExecuteSystem[] _systems;
 
     void Start() {
         Random.seed = 42;
-        _repo = new EntityRepository(ComponentIds.TotalComponents);
+        _pool = new Pool(ComponentIds.TotalComponents);
         createSystems();
         createPlayer();
         createOpponents();
@@ -16,23 +16,24 @@ public class GameController : MonoBehaviour {
     }
 
     void createSystems() {
+        _pool.CreateSystem<RenderDespawnSystem>();
+
         _systems = new [] {
-            _repo.CreateSystem<InputSystem>(),
+            _pool.CreateSystem<InputSystem>(),
 
-            _repo.CreateSystem<AccelerateSystem>(),
-            _repo.CreateSystem<MoveSystem>(),
-            _repo.CreateSystem<ReachedFinishSystem>(),
+            _pool.CreateSystem<AccelerateSystem>(),
+            _pool.CreateSystem<MoveSystem>(),
+            _pool.CreateSystem<ReachedFinishSystem>(),
 
-            _repo.CreateSystem<RenderSpawnSystem>(),
-            _repo.CreateSystem<RenderPositionSystem>(),
+            _pool.CreateSystem<RenderSpawnSystem>(),
+            _pool.CreateSystem<RenderPositionSystem>(),
 
-            _repo.CreateSystem<DestroySystem>(),
-            _repo.CreateSystem<RenderDespawnSystem>()
+            _pool.CreateSystem<DestroySystem>(),
         };
     }
 
     void createPlayer() {
-        var e = _repo.CreateEntity();
+        var e = _pool.CreateEntity();
         e.AddResource("Player");
         e.AddPosition(0, 0, 0);
         e.AddMove(0, 0.025f);
@@ -42,7 +43,7 @@ public class GameController : MonoBehaviour {
     void createOpponents() {
         const string resourceName = "Opponent";
         for (int i = 1; i < 10; i++) {
-            var e = _repo.CreateEntity();
+            var e = _pool.CreateEntity();
             e.AddResource(resourceName);
             e.AddPosition(i, 0, 0);
             var speed = Random.value * 0.02f;
@@ -51,7 +52,7 @@ public class GameController : MonoBehaviour {
     }
 
     void createFinishLine() {
-        var finishLine = _repo.CreateEntity();
+        var finishLine = _pool.CreateEntity();
         finishLine.isFinishLine = true;
         finishLine.AddResource("Finish Line");
         finishLine.AddPosition(4.5f, 3.5f, 0);

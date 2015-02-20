@@ -32,9 +32,9 @@ namespace Entitas {
     }
 
     public static partial class Matcher {
-        static AllOfEntityMatcher _matcherView;
+        static AllOfMatcher _matcherView;
 
-        public static AllOfEntityMatcher View {
+        public static AllOfMatcher View {
             get {
                 if (_matcherView == null) {
                     _matcherView = Matcher.AllOf(new [] { ComponentIds.View });

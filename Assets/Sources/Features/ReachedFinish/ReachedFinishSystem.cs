@@ -1,22 +1,22 @@
 ﻿using Entitas;
 
-public class ReachedFinishSystem : IReactiveSubEntitySystem, ISetEntityRepository {
-    public IEntityMatcher GetTriggeringMatcher() {
+public class ReachedFinishSystem : IReactiveSystem, ISetPool {
+    public IMatcher GetTriggeringMatcher() {
         return Matcher.Position;
     }
 
-    public EntityCollectionEventType GetEventType() {
-        return EntityCollectionEventType.OnEntityAdded;
+    public GroupEventType GetEventType() {
+        return GroupEventType.OnEntityAdded;
     }
 
-    EntityRepository _repo;
+    Pool _pool;
 
-    public void SetEntityRepository(EntityRepository repo) {
-        _repo = repo;
+    public void SetPool(Pool pool) {
+        _pool = pool;
     }
 
     public void Execute(Entity[] entities) {
-        var finishLinePosY = _repo.finishLineEntity.position.y;
+        var finishLinePosY = _pool.finishLineEntity.position.y;
         foreach (var e in entities) {
             if (e.position.y > finishLinePosY) {
                 e.isDestroy = true;

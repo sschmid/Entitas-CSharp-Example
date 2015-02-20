@@ -1,13 +1,13 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class RenderSpawnSystem : IReactiveSubEntitySystem {
-    public IEntityMatcher GetTriggeringMatcher() {
+public class RenderSpawnSystem : IReactiveSystem {
+    public IMatcher GetTriggeringMatcher() {
         return Matcher.Resource;
     }
 
-    public EntityCollectionEventType GetEventType() {
-        return EntityCollectionEventType.OnEntityAdded;
+    public GroupEventType GetEventType() {
+        return GroupEventType.OnEntityAdded;
     }
 
     readonly Transform _viewContainer = new GameObject("Views").transform;
