@@ -1,7 +1,7 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class RenderSpawnSystem : IReactiveSystem {
+public class AddViewSystem : IReactiveSystem {
     public IMatcher GetTriggeringMatcher() {
         return Matcher.Resource;
     }
@@ -21,3 +21,4 @@ public class RenderSpawnSystem : IReactiveSystem {
         }
     }
 }
+

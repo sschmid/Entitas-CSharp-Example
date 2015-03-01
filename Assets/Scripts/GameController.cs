@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Entitas;
+using Entitas.Debug;
 
 public class GameController : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public class GameController : MonoBehaviour {
 
     void Start() {
         Random.seed = 42;
-        _pool = new Pool(ComponentIds.TotalComponents);
+        _pool = new DebugPool(ComponentIds.TotalComponents);
         createSystems();
         createPlayer();
         createOpponents();
@@ -16,16 +17,16 @@ public class GameController : MonoBehaviour {
     }
 
     void createSystems() {
-        _pool.CreateSystem<RenderDespawnSystem>();
-
         _systems = new [] {
+            _pool.CreateSystem<RemoveViewSystem>(),
+            _pool.CreateSystem<AddViewSystem>(),
+            
             _pool.CreateSystem<InputSystem>(),
 
             _pool.CreateSystem<AccelerateSystem>(),
             _pool.CreateSystem<MoveSystem>(),
             _pool.CreateSystem<ReachedFinishSystem>(),
 
-            _pool.CreateSystem<RenderSpawnSystem>(),
             _pool.CreateSystem<RenderPositionSystem>(),
 
             _pool.CreateSystem<DestroySystem>(),
