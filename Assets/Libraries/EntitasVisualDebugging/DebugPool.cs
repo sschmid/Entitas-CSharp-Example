@@ -2,6 +2,8 @@
 
 namespace Entitas.Debug {
     public class DebugPool : Pool {
+        public GameObject entitiesContainer { get { return _entitiesContainer.gameObject; } }
+
         int _debugIndex;
         Transform _entitiesContainer;
 
@@ -45,7 +47,7 @@ namespace Entitas.Debug {
         }
 
         void updateName() {
-            _entitiesContainer.name = "Entities (" + Count + ")";
+            _entitiesContainer.name = "Debug Pool (" + Count + ")";
         }
     }
 }
