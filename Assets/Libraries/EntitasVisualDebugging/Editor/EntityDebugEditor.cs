@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Reflection;
 using Entitas;
+using Entitas.CodeGenerator;
 using UnityEditor;
 using UnityEngine;
 
 namespace Entitas.Debug {
     [CustomEditor(typeof(EntityDebugBehaviour)), CanEditMultipleObjects]
     public class EntityDebugEditor : Editor {
+        GUIStyle _foldoutStyle;
+
         public override void OnInspectorGUI() {
+            setStyles();
+
             if (targets.Length == 1) {
                 drawSingleTarget();
             } else {
                 drawMultiTargets();
             }
             EditorUtility.SetDirty(target);
+        }
+
+        void setStyles() {
+            _foldoutStyle = new GUIStyle(EditorStyles.foldout);
+            _foldoutStyle.fontStyle = FontStyle.Bold;
         }
 
         void drawSingleTarget() {
@@ -26,16 +36,21 @@ namespace Entitas.Debug {
             }
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Components (" + entity.GetComponents().Length + ")", EditorStyles.boldLabel);
+            if (GUILayout.Button("▸", GUILayout.Width(21), GUILayout.Height(14))) {
+                debugBehaviour.FoldAllComponents();
+            }
+            if (GUILayout.Button("▾", GUILayout.Width(21), GUILayout.Height(14))) {
+                debugBehaviour.UnfoldAllComponents();
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space();
 
             var indices = entity.GetComponentIndices();
             var components = entity.GetComponents();
             for (int i = 0; i < components.Length; i++) {
-                EditorGUILayout.BeginVertical(GUI.skin.button);
-                var index = indices[i];
-                var component = components[i];
-                drawComponent(entity, index, component);
-                EditorGUILayout.EndVertical();
+                drawComponent(debugBehaviour, entity, indices[i], components[i]);
             }
             EditorGUILayout.EndVertical();
         }
@@ -66,21 +81,29 @@ namespace Entitas.Debug {
             }
         }
 
-        void drawComponent(Entity entity, int index, IComponent component) {
+        void drawComponent(EntityDebugBehaviour debugBehaviour, Entity entity, int index, IComponent component) {
             var type = component.GetType();
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
 
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(type.Name, EditorStyles.boldLabel);
+            if (fields.Length == 0) {
+                EditorGUILayout.LabelField(type.RemoveComponentSuffix(), EditorStyles.boldLabel);
+            } else {
+                debugBehaviour.unfoldedComponents[index] = EditorGUILayout.Foldout(debugBehaviour.unfoldedComponents[index], type.RemoveComponentSuffix(), _foldoutStyle);
+            }
             if (GUILayout.Button("-", GUILayout.Width(19), GUILayout.Height(14))) {
                 entity.RemoveComponent(index);
             }
             EditorGUILayout.EndHorizontal();
 
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var field in fields) {
-                var value = field.GetValue(component);
-                drawField(entity, index, component, field, value);
+            if (debugBehaviour.unfoldedComponents[index]) {
+                foreach (var field in fields) {
+                    var value = field.GetValue(component);
+                    drawField(entity, index, component, field, value);
+                }
             }
+            EditorGUILayout.EndVertical();
         }
 
         void drawField(Entity entity, int index, IComponent component, FieldInfo field, object value) {
