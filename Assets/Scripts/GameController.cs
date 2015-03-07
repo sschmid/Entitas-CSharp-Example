@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Entitas;
-using Entitas.Debug;
+using Entitas.Unity.VisualDebugging;
 
 public class GameController : MonoBehaviour {
 
