@@ -1,32 +1,34 @@
+using Entitas;
+
 namespace Entitas {
     public partial class Entity {
         static readonly DestroyComponent destroyComponent = new DestroyComponent();
 
         public bool isDestroy {
-            get { return HasComponent(ComponentIds.Destroy); }
+            get { return HasComponent(CoreComponentIds.Destroy); }
             set {
                 if (value != isDestroy) {
                     if (value) {
-                        AddComponent(ComponentIds.Destroy, destroyComponent);
+                        AddComponent(CoreComponentIds.Destroy, destroyComponent);
                     } else {
-                        RemoveComponent(ComponentIds.Destroy);
+                        RemoveComponent(CoreComponentIds.Destroy);
                     }
                 }
             }
         }
     }
+}
 
-    public static partial class Matcher {
+    public partial class CoreMatcher {
         static AllOfMatcher _matcherDestroy;
 
         public static AllOfMatcher Destroy {
             get {
                 if (_matcherDestroy == null) {
-                    _matcherDestroy = Matcher.AllOf(new [] { ComponentIds.Destroy });
+                    _matcherDestroy = new CoreMatcher(CoreComponentIds.Destroy);
                 }
 
                 return _matcherDestroy;
             }
         }
     }
-}

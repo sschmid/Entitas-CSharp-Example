@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RenderPositionSystem : IReactiveSystem {
     public IMatcher GetTriggeringMatcher() {
-        return Matcher.AllOf(Matcher.View, Matcher.Position);
+        return Matcher.AllOf(CoreMatcher.View, CoreMatcher.Position);
     }
 
     public GroupEventType GetEventType() {

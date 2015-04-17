@@ -2,7 +2,7 @@
 
 public class ReachedFinishSystem : IReactiveSystem, ISetPool {
     public IMatcher GetTriggeringMatcher() {
-        return Matcher.Position;
+        return CoreMatcher.Position;
     }
 
     public GroupEventType GetEventType() {

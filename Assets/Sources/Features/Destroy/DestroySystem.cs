@@ -6,7 +6,7 @@ public class DestroySystem : IExecuteSystem, ISetPool {
 
     public void SetPool(Pool pool) {
         _pool = pool;
-        _group = pool.GetGroup(Matcher.Destroy);
+        _group = pool.GetGroup(CoreMatcher.Destroy);
     }
 
     public void Execute() {

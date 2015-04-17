@@ -11,9 +11,9 @@ public class GameController : MonoBehaviour {
         Random.seed = 42;
 
         #if (UNITY_EDITOR)
-        _pool = new DebugPool(ComponentIds.TotalComponents);
+        _pool = new DebugPool(CoreComponentIds.TotalComponents);
         #else
-        _pool = new Pool(ComponentIds.TotalComponents);
+        _pool = new Pool(CoreComponentIds.TotalComponents);
         #endif
 
         createSystems();

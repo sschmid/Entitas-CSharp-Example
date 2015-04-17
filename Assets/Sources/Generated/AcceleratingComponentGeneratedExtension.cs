@@ -1,15 +1,17 @@
+using Entitas;
+
 namespace Entitas {
     public partial class Entity {
         static readonly AcceleratingComponent acceleratingComponent = new AcceleratingComponent();
 
         public bool isAccelerating {
-            get { return HasComponent(ComponentIds.Accelerating); }
+            get { return HasComponent(CoreComponentIds.Accelerating); }
             set {
                 if (value != isAccelerating) {
                     if (value) {
-                        AddComponent(ComponentIds.Accelerating, acceleratingComponent);
+                        AddComponent(CoreComponentIds.Accelerating, acceleratingComponent);
                     } else {
-                        RemoveComponent(ComponentIds.Accelerating);
+                        RemoveComponent(CoreComponentIds.Accelerating);
                     }
                 }
             }
@@ -17,7 +19,7 @@ namespace Entitas {
     }
 
     public partial class Pool {
-        public Entity acceleratingEntity { get { return GetGroup(Matcher.Accelerating).GetSingleEntity(); } }
+        public Entity acceleratingEntity { get { return GetGroup(CoreMatcher.Accelerating).GetSingleEntity(); } }
 
         public bool isAccelerating {
             get { return acceleratingEntity != null; }
@@ -33,18 +35,18 @@ namespace Entitas {
             }
         }
     }
+}
 
-    public static partial class Matcher {
+    public partial class CoreMatcher {
         static AllOfMatcher _matcherAccelerating;
 
         public static AllOfMatcher Accelerating {
             get {
                 if (_matcherAccelerating == null) {
-                    _matcherAccelerating = Matcher.AllOf(new [] { ComponentIds.Accelerating });
+                    _matcherAccelerating = new CoreMatcher(CoreComponentIds.Accelerating);
                 }
 
                 return _matcherAccelerating;
             }
         }
     }
-}

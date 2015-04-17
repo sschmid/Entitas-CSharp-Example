@@ -1,11 +1,13 @@
+using Entitas;
+
 namespace Entitas {
     public partial class Entity {
-        public MoveComponent move { get { return (MoveComponent)GetComponent(ComponentIds.Move); } }
+        public MoveComponent move { get { return (MoveComponent)GetComponent(CoreComponentIds.Move); } }
 
-        public bool hasMove { get { return HasComponent(ComponentIds.Move); } }
+        public bool hasMove { get { return HasComponent(CoreComponentIds.Move); } }
 
         public void AddMove(MoveComponent component) {
-            AddComponent(ComponentIds.Move, component);
+            AddComponent(CoreComponentIds.Move, component);
         }
 
         public void AddMove(float newSpeed, float newMaxSpeed) {
@@ -18,32 +20,32 @@ namespace Entitas {
         public void ReplaceMove(float newSpeed, float newMaxSpeed) {
             MoveComponent component;
             if (hasMove) {
-                WillRemoveComponent(ComponentIds.Move);
+                WillRemoveComponent(CoreComponentIds.Move);
                 component = move;
             } else {
                 component = new MoveComponent();
             }
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
-            ReplaceComponent(ComponentIds.Move, component);
+            ReplaceComponent(CoreComponentIds.Move, component);
         }
 
         public void RemoveMove() {
-            RemoveComponent(ComponentIds.Move);
+            RemoveComponent(CoreComponentIds.Move);
         }
     }
+}
 
-    public static partial class Matcher {
+    public partial class CoreMatcher {
         static AllOfMatcher _matcherMove;
 
         public static AllOfMatcher Move {
             get {
                 if (_matcherMove == null) {
-                    _matcherMove = Matcher.AllOf(new [] { ComponentIds.Move });
+                    _matcherMove = new CoreMatcher(CoreComponentIds.Move);
                 }
 
                 return _matcherMove;
             }
         }
     }
-}

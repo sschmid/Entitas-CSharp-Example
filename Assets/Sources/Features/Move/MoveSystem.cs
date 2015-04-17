@@ -4,7 +4,7 @@ public class MoveSystem : IExecuteSystem, ISetPool {
     Group _group;
 
     public void SetPool(Pool pool) {
-        _group = pool.GetGroup(Matcher.AllOf(Matcher.Move, Matcher.Position));
+        _group = pool.GetGroup(Matcher.AllOf(CoreMatcher.Move, CoreMatcher.Position));
     }
 
     public void Execute() {

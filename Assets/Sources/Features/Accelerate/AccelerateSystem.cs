@@ -2,7 +2,7 @@
 
 public class AccelerateSystem : IReactiveSystem, ISetPool {
     public IMatcher GetTriggeringMatcher() {
-        return Matcher.Accelerating;
+        return CoreMatcher.Accelerating;
     }
 
     public GroupEventType GetEventType() {
@@ -12,7 +12,7 @@ public class AccelerateSystem : IReactiveSystem, ISetPool {
     Group _group;
 
     public void SetPool(Pool pool) {
-        _group = pool.GetGroup(Matcher.AllOf(Matcher.Acceleratable, Matcher.Move));
+        _group = pool.GetGroup(Matcher.AllOf(CoreMatcher.Acceleratable, CoreMatcher.Move));
     }
 
     public void Execute(Entity[] entities) {

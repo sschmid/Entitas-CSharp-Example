@@ -1,6 +1,7 @@
 ﻿using Entitas;
 using UnityEngine;
 
+[Core]
 public class InputSystem : IExecuteSystem, ISetPool {
     Pool _pool;
 

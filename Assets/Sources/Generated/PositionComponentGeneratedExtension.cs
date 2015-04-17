@@ -1,11 +1,13 @@
+using Entitas;
+
 namespace Entitas {
     public partial class Entity {
-        public PositionComponent position { get { return (PositionComponent)GetComponent(ComponentIds.Position); } }
+        public PositionComponent position { get { return (PositionComponent)GetComponent(CoreComponentIds.Position); } }
 
-        public bool hasPosition { get { return HasComponent(ComponentIds.Position); } }
+        public bool hasPosition { get { return HasComponent(CoreComponentIds.Position); } }
 
         public void AddPosition(PositionComponent component) {
-            AddComponent(ComponentIds.Position, component);
+            AddComponent(CoreComponentIds.Position, component);
         }
 
         public void AddPosition(float newX, float newY, float newZ) {
@@ -19,7 +21,7 @@ namespace Entitas {
         public void ReplacePosition(float newX, float newY, float newZ) {
             PositionComponent component;
             if (hasPosition) {
-                WillRemoveComponent(ComponentIds.Position);
+                WillRemoveComponent(CoreComponentIds.Position);
                 component = position;
             } else {
                 component = new PositionComponent();
@@ -27,25 +29,25 @@ namespace Entitas {
             component.x = newX;
             component.y = newY;
             component.z = newZ;
-            ReplaceComponent(ComponentIds.Position, component);
+            ReplaceComponent(CoreComponentIds.Position, component);
         }
 
         public void RemovePosition() {
-            RemoveComponent(ComponentIds.Position);
+            RemoveComponent(CoreComponentIds.Position);
         }
     }
+}
 
-    public static partial class Matcher {
+    public partial class CoreMatcher {
         static AllOfMatcher _matcherPosition;
 
         public static AllOfMatcher Position {
             get {
                 if (_matcherPosition == null) {
-                    _matcherPosition = Matcher.AllOf(new [] { ComponentIds.Position });
+                    _matcherPosition = new CoreMatcher(CoreComponentIds.Position);
                 }
 
                 return _matcherPosition;
             }
         }
     }
-}

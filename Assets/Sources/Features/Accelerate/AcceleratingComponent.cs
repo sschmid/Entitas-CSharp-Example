@@ -1,7 +1,7 @@
 ﻿using Entitas;
 using Entitas.CodeGenerator;
 
-[SingleEntity]
+[Core, SingleEntity]
 public class AcceleratingComponent : IComponent {
 }
 
