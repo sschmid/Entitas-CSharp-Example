@@ -6,7 +6,8 @@ namespace Entitas.CodeGenerator {
     public static class IndicesLookupGenerator {
 
         public static Dictionary<string, string> GenerateIndicesLookup(Type[] components) {
-            return getLookups(components).ToDictionary(
+            var sortedComponents = components.OrderBy(type => type.ToString()).ToArray();
+            return getLookups(sortedComponents).ToDictionary(
                 lookup => lookup.Key,
                 lookup => generateIndicesLookup(lookup.Key, lookup.Value.ToArray())
             );
@@ -40,10 +41,10 @@ namespace Entitas.CodeGenerator {
 
         static string generateIndicesLookup(string tag, Type[] components) {
             return addClassHeader(tag)
-                + addIndices(components)
-                + idToString(components)
-                + addCloseClass()
-                + addMatcher(tag);
+            + addIndices(components)
+            + idToString(components)
+            + addCloseClass()
+            + addMatcher(tag);
         }
 
         static string addClassHeader(string lookupTag) {
@@ -102,7 +103,7 @@ namespace Entitas {
         }
 
         public override string ToString() {
-            return string.Format(ComponentIds.IdToString(indices[0]));
+            return ComponentIds.IdToString(indices[0]);
         }
     }
 }";
@@ -115,7 +116,7 @@ public partial class {0}Matcher : AllOfMatcher {{
     }}
 
     public override string ToString() {{
-        return string.Format({0}ComponentIds.IdToString(indices[0]));
+        return {0}ComponentIds.IdToString(indices[0]);
     }}
 }}", tag);
         }

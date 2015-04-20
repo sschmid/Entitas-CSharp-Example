@@ -5,7 +5,8 @@ using Entitas.Unity.VisualDebugging;
 public class GameController : MonoBehaviour {
 
     Pool _pool;
-    IExecuteSystem[] _systems;
+    IStartSystem[] _startSystems;
+    IExecuteSystem[] _executeSystems;
 
     void Start() {
         Random.seed = 42;
@@ -16,57 +17,45 @@ public class GameController : MonoBehaviour {
         _pool = new Pool(CoreComponentIds.TotalComponents);
         #endif
 
-        createSystems();
-        createPlayer();
-        createOpponents();
-        createFinishLine();
+        createStartSystems();
+        createExecuteSystems();
+
+        startSystems();
     }
 
-    void createSystems() {
-        _systems = new [] {
-            _pool.CreateSystem<RemoveViewSystem>(),
-            _pool.CreateSystem<AddViewSystem>(),
-            
-            _pool.CreateSystem<InputSystem>(),
-
-            _pool.CreateSystem<AccelerateSystem>(),
-            _pool.CreateSystem<MoveSystem>(),
-            _pool.CreateSystem<ReachedFinishSystem>(),
-
-            _pool.CreateSystem<RenderPositionSystem>(),
-
-            _pool.CreateSystem<DestroySystem>(),
+    void createStartSystems() {
+        _startSystems = new [] {
+            _pool.CreateStartSystem<CreatePlayerSystem>(),
+            _pool.CreateStartSystem<CreateOpponentsSystem>(),
+            _pool.CreateStartSystem<CreateFinishLineSystem>()
         };
     }
 
-    void createPlayer() {
-        var e = _pool.CreateEntity();
-        e.AddResource("Player");
-        e.AddPosition(0, 0, 0);
-        e.AddMove(0, 0.025f);
-        e.isAcceleratable = true;
+    void createExecuteSystems() {
+        _executeSystems = new [] {
+            _pool.CreateExecuteSystem<RemoveViewSystem>(),
+            _pool.CreateExecuteSystem<AddViewSystem>(),
+            
+            _pool.CreateExecuteSystem<InputSystem>(),
+
+            _pool.CreateExecuteSystem<AccelerateSystem>(),
+            _pool.CreateExecuteSystem<MoveSystem>(),
+            _pool.CreateExecuteSystem<ReachedFinishSystem>(),
+
+            _pool.CreateExecuteSystem<RenderPositionSystem>(),
+
+            _pool.CreateExecuteSystem<DestroySystem>(),
+        };
     }
 
-    void createOpponents() {
-        const string resourceName = "Opponent";
-        for (int i = 1; i < 10; i++) {
-            var e = _pool.CreateEntity();
-            e.AddResource(resourceName);
-            e.AddPosition(i, 0, 0);
-            var speed = Random.value * 0.02f;
-            e.AddMove(speed, speed);
+    void startSystems() {
+        foreach (var system in _startSystems) {
+            system.Start();
         }
     }
 
-    void createFinishLine() {
-        var finishLine = _pool.CreateEntity();
-        finishLine.isFinishLine = true;
-        finishLine.AddResource("Finish Line");
-        finishLine.AddPosition(4.5f, 3.5f, 0);
-    }
-
     void Update() {
-        foreach (var system in _systems) {
+        foreach (var system in _executeSystems) {
             system.Execute();
         }
     }
