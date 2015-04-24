@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour {
         Random.seed = 42;
 
         #if (UNITY_EDITOR)
-        _pool = new DebugPool(CoreComponentIds.TotalComponents);
+        _pool = new DebugPool(CoreComponentIds.TotalComponents, "Core Pool");
         #else
         _pool = new Pool(CoreComponentIds.TotalComponents);
         #endif
