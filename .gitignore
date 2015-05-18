@@ -1,8 +1,21 @@
-*.sln
-*.csproj
+# OS X
+.DS_Store
+
+# Unity general
+Assembly-CSharp-Editor-vs.csproj
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
+
 CurrentLayout.dwlt
 CurrentMaximizeLayout.dwlt
-Library/GiCache
-shadercompiler-64bit*
+Library/AtlasCache
 Library/ShaderCache
 ShaderCache.db
+shadercompiler*
+CrashedAssetImports.txt
+
+
+# Unity project specific
+Entitas Example-csharp.sln
+Entitas Example.sln

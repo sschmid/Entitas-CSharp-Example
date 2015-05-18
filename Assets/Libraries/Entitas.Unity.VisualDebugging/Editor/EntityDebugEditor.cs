@@ -123,14 +123,14 @@ namespace Entitas.Unity.VisualDebugging {
 
         public static void DrawAndSetElement(Type type, string fieldName, object value, Entity entity, int index, IComponent component, Action<object> setValue) {
             var newValue = DrawAndGetNewValue(type, fieldName, value, entity, index, component);
-            if (didValueChange(value, newValue)) {
+            if (DidValueChange(value, newValue)) {
                 entity.WillRemoveComponent(index);
                 setValue(newValue);
                 entity.ReplaceComponent(index, component);
             }
         }
 
-        static bool didValueChange(object value, object newValue) {
+        public static bool DidValueChange(object value, object newValue) {
             return (value == null && newValue != null) ||
                    (value != null && newValue == null) ||
                    ((value != null && newValue != null &&
@@ -191,8 +191,9 @@ namespace Entitas.Unity.VisualDebugging {
                 var typeName = TypeGenerator.Generate(type);
                 if (EditorUtility.DisplayDialog(
                         "No ITypeDrawer found",
-                        "There's no ITypeDrawer implementation to handle the type '" + typeName + "'.\n\n" +
-                        "Do you want to generate a ITypeDrawer implementation?",
+                        "There's no ITypeDrawer implementation to handle the type '" + typeName + "'.\n" +
+                        "Providing an ITypeDrawer enables you draw instances for that type.\n\n" + 
+                        "Do you want to generate an ITypeDrawer implementation for '" + typeName + "'?\n",
                         "Generate",
                         "Cancel"
                     )) {
@@ -218,8 +219,9 @@ namespace Entitas.Unity.VisualDebugging {
             var typeName = TypeGenerator.Generate(type);
             if (EditorUtility.DisplayDialog(
                     "No IDefaultInstanceCreator found",
-                    "There's no IDefaultInstanceCreator implementation to handle the type '" + typeName + "'.\n\n" +
-                    "Do you want to generate a IDefaultInstanceCreator implementation?",
+                    "There's no IDefaultInstanceCreator implementation to handle the type '" + typeName + "'.\n" +
+                    "Providing an IDefaultInstanceCreator enables you to create instances for that type.\n\n" + 
+                    "Do you want to generate an IDefaultInstanceCreator implementation for '" + typeName + "'?\n",
                     "Generate",
                     "Cancel"
                 )) {

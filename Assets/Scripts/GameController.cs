@@ -4,59 +4,41 @@ using Entitas.Unity.VisualDebugging;
 
 public class GameController : MonoBehaviour {
 
-    Pool _pool;
-    IStartSystem[] _startSystems;
-    IExecuteSystem[] _executeSystems;
+    Systems _systems;
 
     void Start() {
         Random.seed = 42;
 
         #if (UNITY_EDITOR)
-        _pool = new DebugPool(CoreComponentIds.TotalComponents, "Core Pool");
+        var pool = new DebugPool(CoreComponentIds.TotalComponents, "Core Pool");
         #else
-        _pool = new Pool(CoreComponentIds.TotalComponents);
+        var pool = new Pool(CoreComponentIds.TotalComponents);
         #endif
 
-        createStartSystems();
-        createExecuteSystems();
-
-        startSystems();
-    }
-
-    void createStartSystems() {
-        _startSystems = new [] {
-            _pool.CreateStartSystem<CreatePlayerSystem>(),
-            _pool.CreateStartSystem<CreateOpponentsSystem>(),
-            _pool.CreateStartSystem<CreateFinishLineSystem>()
-        };
-    }
-
-    void createExecuteSystems() {
-        _executeSystems = new [] {
-            _pool.CreateExecuteSystem<RemoveViewSystem>(),
-            _pool.CreateExecuteSystem<AddViewSystem>(),
-            
-            _pool.CreateExecuteSystem<InputSystem>(),
-
-            _pool.CreateExecuteSystem<AccelerateSystem>(),
-            _pool.CreateExecuteSystem<MoveSystem>(),
-            _pool.CreateExecuteSystem<ReachedFinishSystem>(),
-
-            _pool.CreateExecuteSystem<RenderPositionSystem>(),
-
-            _pool.CreateExecuteSystem<DestroySystem>(),
-        };
-    }
-
-    void startSystems() {
-        foreach (var system in _startSystems) {
-            system.Start();
-        }
+        _systems = createSystems(pool);
+        _systems.Start();
     }
 
     void Update() {
-        foreach (var system in _executeSystems) {
-            system.Execute();
-        }
+        _systems.Execute();
+    }
+
+    Systems createSystems(Pool pool) {
+        var systems = new Systems();
+        systems.Add(pool.CreateSystem<CreatePlayerSystem>());
+        systems.Add(pool.CreateSystem<CreateOpponentsSystem>());
+        systems.Add(pool.CreateSystem<CreateFinishLineSystem>());
+
+        systems.Add(pool.CreateSystem<RemoveViewSystem>());
+        systems.Add(pool.CreateSystem<AddViewSystem>());
+
+        systems.Add(pool.CreateSystem<InputSystem>());
+        systems.Add(pool.CreateSystem<AccelerateSystem>());
+        systems.Add(pool.CreateSystem<MoveSystem>());
+        systems.Add(pool.CreateSystem<ReachedFinishSystem>());
+        systems.Add(pool.CreateSystem<RenderPositionSystem>());
+
+        systems.Add(pool.CreateSystem<DestroySystem>());
+        return systems;
     }
 }
