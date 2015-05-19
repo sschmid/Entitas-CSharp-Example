@@ -6,17 +6,17 @@ namespace Entitas {
 
         public bool hasResource { get { return HasComponent(CoreComponentIds.Resource); } }
 
-        public void AddResource(ResourceComponent component) {
-            AddComponent(CoreComponentIds.Resource, component);
+        public Entity AddResource(ResourceComponent component) {
+            return AddComponent(CoreComponentIds.Resource, component);
         }
 
-        public void AddResource(string newName) {
+        public Entity AddResource(string newName) {
             var component = new ResourceComponent();
             component.name = newName;
-            AddResource(component);
+            return AddResource(component);
         }
 
-        public void ReplaceResource(string newName) {
+        public Entity ReplaceResource(string newName) {
             ResourceComponent component;
             if (hasResource) {
                 WillRemoveComponent(CoreComponentIds.Resource);
@@ -25,11 +25,11 @@ namespace Entitas {
                 component = new ResourceComponent();
             }
             component.name = newName;
-            ReplaceComponent(CoreComponentIds.Resource, component);
+            return ReplaceComponent(CoreComponentIds.Resource, component);
         }
 
-        public void RemoveResource() {
-            RemoveComponent(CoreComponentIds.Resource);
+        public Entity RemoveResource() {
+            return RemoveComponent(CoreComponentIds.Resource);
         }
     }
 }

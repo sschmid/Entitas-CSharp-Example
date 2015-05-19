@@ -11,11 +11,11 @@ public class CreateOpponentsSystem : IStartSystem, ISetPool {
     public void Start() {
         const string resourceName = "Opponent";
         for (int i = 1; i < 10; i++) {
-            var e = _pool.CreateEntity();
-            e.AddResource(resourceName);
-            e.AddPosition(i, 0, 0);
             var speed = Random.value * 0.02f;
-            e.AddMove(speed, speed);
+            _pool.CreateEntity()
+                .AddResource(resourceName)
+                .AddPosition(i, 0, 0)
+                .AddMove(speed, speed);
         }
     }
 }

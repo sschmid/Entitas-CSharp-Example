@@ -1,6 +1,6 @@
 ﻿using Entitas;
 
-public class CreateFinishLineSystem : IStartSystem, ISetPool{
+public class CreateFinishLineSystem : IStartSystem, ISetPool {
     Pool _pool;
 
     public void SetPool(Pool pool) {
@@ -8,10 +8,10 @@ public class CreateFinishLineSystem : IStartSystem, ISetPool{
     }
 
     public void Start() {
-        var finishLine = _pool.CreateEntity();
-        finishLine.isFinishLine = true;
-        finishLine.AddResource("Finish Line");
-        finishLine.AddPosition(4.5f, 3.5f, 0);
+        _pool.CreateEntity()
+            .IsFinishLine(true)
+            .AddResource("Finish Line")
+            .AddPosition(4.5f, 3.5f, 0);
     }
 }
 

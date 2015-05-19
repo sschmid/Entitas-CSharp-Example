@@ -16,6 +16,11 @@ namespace Entitas {
                 }
             }
         }
+
+        public Entity IsFinishLine(bool value) {
+            isFinishLine = value;
+            return this;
+        }
     }
 
     public partial class Pool {

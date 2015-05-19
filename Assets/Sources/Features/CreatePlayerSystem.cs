@@ -8,11 +8,11 @@ public class CreatePlayerSystem : IStartSystem, ISetPool {
     }
 
     public void Start() {
-        var e = _pool.CreateEntity();
-        e.AddResource("Player");
-        e.AddPosition(0, 0, 0);
-        e.AddMove(0, 0.025f);
-        e.isAcceleratable = true;
+        _pool.CreateEntity()
+            .AddResource("Player")
+            .AddPosition(0, 0, 0)
+            .AddMove(0, 0.025f)
+            .IsAcceleratable(true);
     }
 }
 

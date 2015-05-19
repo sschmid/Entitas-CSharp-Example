@@ -16,6 +16,11 @@ namespace Entitas {
                 }
             }
         }
+
+        public Entity IsAccelerating(bool value) {
+            isAccelerating = value;
+            return this;
+        }
     }
 
     public partial class Pool {

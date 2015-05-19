@@ -16,6 +16,11 @@ namespace Entitas {
                 }
             }
         }
+
+        public Entity IsAcceleratable(bool value) {
+            isAcceleratable = value;
+            return this;
+        }
     }
 }
 

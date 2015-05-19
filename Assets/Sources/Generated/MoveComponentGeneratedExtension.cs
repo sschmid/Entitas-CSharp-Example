@@ -6,18 +6,18 @@ namespace Entitas {
 
         public bool hasMove { get { return HasComponent(CoreComponentIds.Move); } }
 
-        public void AddMove(MoveComponent component) {
-            AddComponent(CoreComponentIds.Move, component);
+        public Entity AddMove(MoveComponent component) {
+            return AddComponent(CoreComponentIds.Move, component);
         }
 
-        public void AddMove(float newSpeed, float newMaxSpeed) {
+        public Entity AddMove(float newSpeed, float newMaxSpeed) {
             var component = new MoveComponent();
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
-            AddMove(component);
+            return AddMove(component);
         }
 
-        public void ReplaceMove(float newSpeed, float newMaxSpeed) {
+        public Entity ReplaceMove(float newSpeed, float newMaxSpeed) {
             MoveComponent component;
             if (hasMove) {
                 WillRemoveComponent(CoreComponentIds.Move);
@@ -27,11 +27,11 @@ namespace Entitas {
             }
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
-            ReplaceComponent(CoreComponentIds.Move, component);
+            return ReplaceComponent(CoreComponentIds.Move, component);
         }
 
-        public void RemoveMove() {
-            RemoveComponent(CoreComponentIds.Move);
+        public Entity RemoveMove() {
+            return RemoveComponent(CoreComponentIds.Move);
         }
     }
 }
