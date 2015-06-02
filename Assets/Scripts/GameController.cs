@@ -24,21 +24,24 @@ public class GameController : MonoBehaviour {
     }
 
     Systems createSystems(Pool pool) {
-        var systems = new Systems();
-        systems.Add(pool.CreateSystem<CreatePlayerSystem>());
-        systems.Add(pool.CreateSystem<CreateOpponentsSystem>());
-        systems.Add(pool.CreateSystem<CreateFinishLineSystem>());
+        #if (UNITY_EDITOR)
+        return new DebugSystems()
+        #else
+        return new Systems()
+        #endif
+            .Add(pool.CreateSystem<CreatePlayerSystem>())
+            .Add(pool.CreateSystem<CreateOpponentsSystem>())
+            .Add(pool.CreateSystem<CreateFinishLineSystem>())
 
-        systems.Add(pool.CreateSystem<RemoveViewSystem>());
-        systems.Add(pool.CreateSystem<AddViewSystem>());
+            .Add(pool.CreateSystem<RemoveViewSystem>())
+            .Add(pool.CreateSystem<AddViewSystem>())
 
-        systems.Add(pool.CreateSystem<InputSystem>());
-        systems.Add(pool.CreateSystem<AccelerateSystem>());
-        systems.Add(pool.CreateSystem<MoveSystem>());
-        systems.Add(pool.CreateSystem<ReachedFinishSystem>());
-        systems.Add(pool.CreateSystem<RenderPositionSystem>());
+            .Add(pool.CreateSystem<InputSystem>())
+            .Add(pool.CreateSystem<AccelerateSystem>())
+            .Add(pool.CreateSystem<MoveSystem>())
+            .Add(pool.CreateSystem<ReachedFinishSystem>())
+            .Add(pool.CreateSystem<RenderPositionSystem>())
 
-        systems.Add(pool.CreateSystem<DestroySystem>());
-        return systems;
+            .Add(pool.CreateSystem<DestroySystem>());
     }
 }
