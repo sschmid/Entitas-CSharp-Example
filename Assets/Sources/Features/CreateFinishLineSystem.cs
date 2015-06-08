@@ -11,7 +11,7 @@ public class CreateFinishLineSystem : IStartSystem, ISetPool {
         _pool.CreateEntity()
             .IsFinishLine(true)
             .AddResource("Finish Line")
-            .AddPosition(4.5f, 3.5f, 0);
+            .AddPosition(9f, 7f, 0);
     }
 }
 

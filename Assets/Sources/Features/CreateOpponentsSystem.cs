@@ -14,7 +14,7 @@ public class CreateOpponentsSystem : IStartSystem, ISetPool {
             var speed = Random.value * 0.02f;
             _pool.CreateEntity()
                 .AddResource(resourceName)
-                .AddPosition(i, 0, 0)
+                .AddPosition(i + i, 0, 0)
                 .AddMove(speed, speed);
         }
     }
