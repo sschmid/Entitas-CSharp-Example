@@ -9,12 +9,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         Random.seed = 42;
 
-        #if (UNITY_EDITOR)
-        var pool = new DebugPool(CoreComponentIds.TotalComponents, "Core Pool");
-        #else
-        var pool = new Pool(CoreComponentIds.TotalComponents);
-        #endif
-
+        var pool = Pools.core;
         _systems = createSystems(pool);
         _systems.Start();
     }
@@ -29,19 +24,19 @@ public class GameController : MonoBehaviour {
         #else
         return new Systems()
         #endif
-            .Add(pool.CreateSystem<CreatePlayerSystem>())
-            .Add(pool.CreateSystem<CreateOpponentsSystem>())
-            .Add(pool.CreateSystem<CreateFinishLineSystem>())
+            .Add(pool.CreateCreatePlayerSystem())
+            .Add(pool.CreateCreateOpponentsSystem())
+            .Add(pool.CreateCreateFinishLineSystem())
 
-            .Add(pool.CreateSystem<RemoveViewSystem>())
-            .Add(pool.CreateSystem<AddViewSystem>())
+            .Add(pool.CreateRemoveViewSystem())
+            .Add(pool.CreateAddViewSystem())
 
-            .Add(pool.CreateSystem<InputSystem>())
-            .Add(pool.CreateSystem<AccelerateSystem>())
-            .Add(pool.CreateSystem<MoveSystem>())
-            .Add(pool.CreateSystem<ReachedFinishSystem>())
-            .Add(pool.CreateSystem<RenderPositionSystem>())
+            .Add(pool.CreateInputSystem())
+            .Add(pool.CreateAccelerateSystem())
+            .Add(pool.CreateMoveSystem())
+            .Add(pool.CreateReachedFinishSystem())
+            .Add(pool.CreateRenderPositionSystem())
 
-            .Add(pool.CreateSystem<DestroySystem>());
+            .Add(pool.CreateDestroySystem());
     }
 }

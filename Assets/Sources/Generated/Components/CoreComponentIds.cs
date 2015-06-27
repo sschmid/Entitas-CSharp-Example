@@ -1,7 +1,5 @@
 using Entitas;
 
-using System.Collections.Generic;
-
 public static class CoreComponentIds {
     public const int Acceleratable = 0;
     public const int Accelerating = 1;
@@ -14,15 +12,15 @@ public static class CoreComponentIds {
 
     public const int TotalComponents = 8;
 
-    static readonly Dictionary<int, string> components = new Dictionary<int, string> {
-        { 0, "Acceleratable" },
-        { 1, "Accelerating" },
-        { 2, "Destroy" },
-        { 3, "FinishLine" },
-        { 4, "Move" },
-        { 5, "Position" },
-        { 6, "Resource" },
-        { 7, "View" }
+    static readonly string[] components = {
+        "Acceleratable",
+        "Accelerating",
+        "Destroy",
+        "FinishLine",
+        "Move",
+        "Position",
+        "Resource",
+        "View"
     };
 
     public static string IdToString(int componentId) {
