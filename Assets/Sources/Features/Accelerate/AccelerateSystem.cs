@@ -1,13 +1,9 @@
-﻿using Entitas;
+using Entitas;
 
 public class AccelerateSystem : IReactiveSystem, ISetPool {
-    public IMatcher GetTriggeringMatcher() {
-        return CoreMatcher.Accelerating;
-    }
+    public IMatcher trigger { get { return CoreMatcher.Accelerating; } }
 
-    public GroupEventType GetEventType() {
-        return GroupEventType.OnEntityAddedOrRemoved;
-    }
+    public GroupEventType eventType { get { return GroupEventType.OnEntityAddedOrRemoved; } }
 
     Group _group;
 

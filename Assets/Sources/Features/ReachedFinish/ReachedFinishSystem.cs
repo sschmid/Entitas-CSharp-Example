@@ -1,13 +1,9 @@
-﻿using Entitas;
+using Entitas;
 
 public class ReachedFinishSystem : IReactiveSystem, ISetPool {
-    public IMatcher GetTriggeringMatcher() {
-        return CoreMatcher.Position;
-    }
+    public IMatcher trigger { get { return CoreMatcher.Position; } }
 
-    public GroupEventType GetEventType() {
-        return GroupEventType.OnEntityAdded;
-    }
+    public GroupEventType eventType { get { return GroupEventType.OnEntityAdded; } }
 
     Pool _pool;
 
