@@ -9,8 +9,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         Random.seed = 42;
 
-        var pool = Pools.core;
-        _systems = createSystems(pool);
+        _systems = createSystems(Pools.core);
         _systems.Start();
     }
 

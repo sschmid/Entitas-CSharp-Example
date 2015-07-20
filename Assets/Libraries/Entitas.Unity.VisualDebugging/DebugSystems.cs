@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Entitas.Unity.VisualDebugging {
 
     public class SystemInfo {
+        public ISystem system { get { return _system; } }
         public string systemName { get { return _systemName; } }
         public double totalExecutionDuration { get { return _totalExecutionDuration; } }
         public double minExecutionDuration { get { return _minExecutionDuration; } }
@@ -17,14 +18,27 @@ namespace Entitas.Unity.VisualDebugging {
 
         public bool isActive;
 
+        ISystem _system;
         string _systemName;
         double _totalExecutionDuration = -1;
         double _minExecutionDuration;
         double _maxExecutionDuration;
         int _durationsCount;
 
-        public SystemInfo(string systemName) {
-            _systemName = systemName;
+        const string systemSuffix = "System";
+
+        public SystemInfo(ISystem system, Type systemType) {
+            _system = system;
+
+            var debugSystem = system as DebugSystems;
+            if (debugSystem != null) {
+                _systemName = debugSystem.name;
+            } else {
+                _systemName = systemType.Name.EndsWith(systemSuffix, StringComparison.Ordinal)
+                    ? systemType.Name.Substring(0, systemType.Name.Length - systemSuffix.Length)
+                    : systemType.Name;
+            }
+            
             isActive = true;
         }
 
@@ -96,6 +110,11 @@ namespace Entitas.Unity.VisualDebugging {
 
         public override Systems Add(ISystem system) {
             _systems.Add(system);
+            var debugSystems = system as DebugSystems;
+            if (debugSystems != null) {
+                debugSystems.container.transform.SetParent(_container.transform, false);
+            }
+
             return base.Add(system);
         }
 
@@ -168,12 +187,7 @@ namespace Entitas.Unity.VisualDebugging {
 
             SystemInfo systemInfo;
             if (!_systemInfos.TryGetValue(systemType, out systemInfo)) {
-                const string systemSuffix = "System";
-                var systemName = systemType.Name.EndsWith(systemSuffix, StringComparison.Ordinal)
-                                    ? systemType.Name.Substring(0, systemType.Name.Length - systemSuffix.Length)
-                                    : systemType.Name;
-
-                systemInfo = new SystemInfo(systemName);
+                systemInfo = new SystemInfo(system, systemType);
                 _systemInfos.Add(systemType, systemInfo);
             }
 
