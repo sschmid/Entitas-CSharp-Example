@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace Entitas {
     public partial class Pool {
+
+        public event PoolChanged OnEntityCreated;
+        public event PoolChanged OnEntityWillBeDestroyed;
+        public event PoolChanged OnEntityDestroyed;
+        public event GroupChanged OnGroupCreated;
+
+        public delegate void PoolChanged(Pool pool, Entity entity);
+        public delegate void GroupChanged(Pool pool, Group group);
+
         public int totalComponents { get { return _totalComponents; } }
         public int Count { get { return _entities.Count; } }
         public int pooledEntitiesCount { get { return _entityPool.Count; } }
@@ -36,8 +45,12 @@ namespace Entitas {
             _entitiesCache = null;
             entity.OnComponentAdded += onComponentAddedOrRemoved;
             entity.OnComponentReplaced += onComponentReplaced;
-            entity.OnComponentWillBeRemoved += onComponentWillBeRemoved;
             entity.OnComponentRemoved += onComponentAddedOrRemoved;
+
+            if (OnEntityCreated != null) {
+                OnEntityCreated(this, entity);
+            }
+
             return entity;
         }
 
@@ -47,14 +60,21 @@ namespace Entitas {
                 throw new PoolDoesNotContainEntityException(entity,
                     "Could not destroy entity!");
             }
+            _entitiesCache = null;
+
+            if (OnEntityWillBeDestroyed != null) {
+                OnEntityWillBeDestroyed(this, entity);
+            }
 
             entity.RemoveAllComponents();
             entity.OnComponentAdded -= onComponentAddedOrRemoved;
             entity.OnComponentReplaced -= onComponentReplaced;
-            entity.OnComponentWillBeRemoved -= onComponentWillBeRemoved;
             entity.OnComponentRemoved -= onComponentAddedOrRemoved;
-            _entitiesCache = null;
             _entityPool.Push(entity);
+
+            if (OnEntityDestroyed != null) {
+                OnEntityDestroyed(this, entity);
+            }
         }
 
         public virtual void DestroyAllEntities() {
@@ -94,6 +114,10 @@ namespace Entitas {
                     }
                     _groupsForIndex[index].Add(group);
                 }
+
+                if (OnGroupCreated != null) {
+                    OnGroupCreated(this, group);
+                }
             }
 
             return group;
@@ -103,31 +127,16 @@ namespace Entitas {
             var groups = _groupsForIndex[index];
             if (groups != null) {
                 for (int i = 0, groupsCount = groups.Count; i < groupsCount; i++) {
-                    groups[i].HandleEntity(entity);
+                    groups[i].HandleEntity(entity, index, component);
                 }
             }
         }
 
-        protected void onComponentReplaced(Entity entity, int index, IComponent component) {
+        protected void onComponentReplaced(Entity entity, int index, IComponent previousComponent, IComponent newComponent) {
             var groups = _groupsForIndex[index];
             if (groups != null) {
                 for (int i = 0, groupsCount = groups.Count; i < groupsCount; i++) {
-                    groups[i].UpdateEntity(entity);
-                }
-            }
-        }
-
-        protected void onComponentWillBeRemoved(Entity entity, int index, IComponent component) {
-            var groups = _groupsForIndex[index];
-            if (groups != null) {
-                for (int i = 0, groupsCount = groups.Count; i < groupsCount; i++) {
-                    var group = groups[i];
-                    entity._components[index] = null;
-                    var matches = group.matcher.Matches(entity);
-                    entity._components[index] = component;
-                    if (!matches) {
-                        group.WillRemoveEntity(entity);
-                    }
+                    groups[i].UpdateEntity(entity, index, previousComponent, newComponent);
                 }
             }
         }

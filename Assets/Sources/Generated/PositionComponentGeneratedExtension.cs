@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Entitas;
 
 namespace Entitas {
@@ -6,34 +8,38 @@ namespace Entitas {
 
         public bool hasPosition { get { return HasComponent(CoreComponentIds.Position); } }
 
-        public Entity AddPosition(PositionComponent component) {
-            return AddComponent(CoreComponentIds.Position, component);
+        static readonly Stack<PositionComponent> _positionComponentPool = new Stack<PositionComponent>();
+
+        public static void ClearPositionComponentPool() {
+            _positionComponentPool.Clear();
         }
 
         public Entity AddPosition(float newX, float newY, float newZ) {
-            var component = new PositionComponent();
+            var component = _positionComponentPool.Count > 0 ? _positionComponentPool.Pop() : new PositionComponent();
             component.x = newX;
             component.y = newY;
             component.z = newZ;
-            return AddPosition(component);
+            return AddComponent(CoreComponentIds.Position, component);
         }
 
         public Entity ReplacePosition(float newX, float newY, float newZ) {
-            PositionComponent component;
-            if (hasPosition) {
-                WillRemoveComponent(CoreComponentIds.Position);
-                component = position;
-            } else {
-                component = new PositionComponent();
-            }
+            var previousComponent = position;
+            var component = _positionComponentPool.Count > 0 ? _positionComponentPool.Pop() : new PositionComponent();
             component.x = newX;
             component.y = newY;
             component.z = newZ;
-            return ReplaceComponent(CoreComponentIds.Position, component);
+            ReplaceComponent(CoreComponentIds.Position, component);
+            if (previousComponent != null) {
+                _positionComponentPool.Push(previousComponent);
+            }
+            return this;
         }
 
         public Entity RemovePosition() {
-            return RemoveComponent(CoreComponentIds.Position);
+            var component = position;
+            RemoveComponent(CoreComponentIds.Position);
+            _positionComponentPool.Push(component);
+            return this;
         }
     }
 }

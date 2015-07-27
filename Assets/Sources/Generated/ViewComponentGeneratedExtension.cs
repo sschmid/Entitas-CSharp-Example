@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Entitas;
 
 namespace Entitas {
@@ -6,30 +8,34 @@ namespace Entitas {
 
         public bool hasView { get { return HasComponent(CoreComponentIds.View); } }
 
-        public Entity AddView(ViewComponent component) {
-            return AddComponent(CoreComponentIds.View, component);
+        static readonly Stack<ViewComponent> _viewComponentPool = new Stack<ViewComponent>();
+
+        public static void ClearViewComponentPool() {
+            _viewComponentPool.Clear();
         }
 
         public Entity AddView(UnityEngine.GameObject newGameObject) {
-            var component = new ViewComponent();
+            var component = _viewComponentPool.Count > 0 ? _viewComponentPool.Pop() : new ViewComponent();
             component.gameObject = newGameObject;
-            return AddView(component);
+            return AddComponent(CoreComponentIds.View, component);
         }
 
         public Entity ReplaceView(UnityEngine.GameObject newGameObject) {
-            ViewComponent component;
-            if (hasView) {
-                WillRemoveComponent(CoreComponentIds.View);
-                component = view;
-            } else {
-                component = new ViewComponent();
-            }
+            var previousComponent = view;
+            var component = _viewComponentPool.Count > 0 ? _viewComponentPool.Pop() : new ViewComponent();
             component.gameObject = newGameObject;
-            return ReplaceComponent(CoreComponentIds.View, component);
+            ReplaceComponent(CoreComponentIds.View, component);
+            if (previousComponent != null) {
+                _viewComponentPool.Push(previousComponent);
+            }
+            return this;
         }
 
         public Entity RemoveView() {
-            return RemoveComponent(CoreComponentIds.View);
+            var component = view;
+            RemoveComponent(CoreComponentIds.View);
+            _viewComponentPool.Push(component);
+            return this;
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Entitas;
 
 namespace Entitas {
@@ -6,30 +8,34 @@ namespace Entitas {
 
         public bool hasResource { get { return HasComponent(CoreComponentIds.Resource); } }
 
-        public Entity AddResource(ResourceComponent component) {
-            return AddComponent(CoreComponentIds.Resource, component);
+        static readonly Stack<ResourceComponent> _resourceComponentPool = new Stack<ResourceComponent>();
+
+        public static void ClearResourceComponentPool() {
+            _resourceComponentPool.Clear();
         }
 
         public Entity AddResource(string newName) {
-            var component = new ResourceComponent();
+            var component = _resourceComponentPool.Count > 0 ? _resourceComponentPool.Pop() : new ResourceComponent();
             component.name = newName;
-            return AddResource(component);
+            return AddComponent(CoreComponentIds.Resource, component);
         }
 
         public Entity ReplaceResource(string newName) {
-            ResourceComponent component;
-            if (hasResource) {
-                WillRemoveComponent(CoreComponentIds.Resource);
-                component = resource;
-            } else {
-                component = new ResourceComponent();
-            }
+            var previousComponent = resource;
+            var component = _resourceComponentPool.Count > 0 ? _resourceComponentPool.Pop() : new ResourceComponent();
             component.name = newName;
-            return ReplaceComponent(CoreComponentIds.Resource, component);
+            ReplaceComponent(CoreComponentIds.Resource, component);
+            if (previousComponent != null) {
+                _resourceComponentPool.Push(previousComponent);
+            }
+            return this;
         }
 
         public Entity RemoveResource() {
-            return RemoveComponent(CoreComponentIds.Resource);
+            var component = resource;
+            RemoveComponent(CoreComponentIds.Resource);
+            _resourceComponentPool.Push(component);
+            return this;
         }
     }
 }

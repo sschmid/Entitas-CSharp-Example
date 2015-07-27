@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Entitas;
 
 namespace Entitas {
@@ -6,32 +8,36 @@ namespace Entitas {
 
         public bool hasMove { get { return HasComponent(CoreComponentIds.Move); } }
 
-        public Entity AddMove(MoveComponent component) {
-            return AddComponent(CoreComponentIds.Move, component);
+        static readonly Stack<MoveComponent> _moveComponentPool = new Stack<MoveComponent>();
+
+        public static void ClearMoveComponentPool() {
+            _moveComponentPool.Clear();
         }
 
         public Entity AddMove(float newSpeed, float newMaxSpeed) {
-            var component = new MoveComponent();
+            var component = _moveComponentPool.Count > 0 ? _moveComponentPool.Pop() : new MoveComponent();
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
-            return AddMove(component);
+            return AddComponent(CoreComponentIds.Move, component);
         }
 
         public Entity ReplaceMove(float newSpeed, float newMaxSpeed) {
-            MoveComponent component;
-            if (hasMove) {
-                WillRemoveComponent(CoreComponentIds.Move);
-                component = move;
-            } else {
-                component = new MoveComponent();
-            }
+            var previousComponent = move;
+            var component = _moveComponentPool.Count > 0 ? _moveComponentPool.Pop() : new MoveComponent();
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
-            return ReplaceComponent(CoreComponentIds.Move, component);
+            ReplaceComponent(CoreComponentIds.Move, component);
+            if (previousComponent != null) {
+                _moveComponentPool.Push(previousComponent);
+            }
+            return this;
         }
 
         public Entity RemoveMove() {
-            return RemoveComponent(CoreComponentIds.Move);
+            var component = move;
+            RemoveComponent(CoreComponentIds.Move);
+            _moveComponentPool.Push(component);
+            return this;
         }
     }
 }

@@ -7,14 +7,15 @@ public class RemoveViewSystem : IReactiveSystem, ISetPool {
     public GroupEventType eventType { get { return GroupEventType.OnEntityRemoved; } }
 
     public void SetPool(Pool pool) {
-        pool.GetGroup(CoreMatcher.View).OnEntityWillBeRemoved += onEntityWillBeRemoved;
+        pool.GetGroup(CoreMatcher.View).OnEntityRemoved += onEntityRemoved;
     }
 
-    void onEntityWillBeRemoved(Group group, Entity entity) {
-        Object.Destroy(entity.view.gameObject);
+    void onEntityRemoved(Group group, Entity entity, int index, IComponent component) {
+        var viewComponent = (ViewComponent)component;
+        Object.Destroy(viewComponent.gameObject);
     }
 
-    public void Execute(Entity[] entities) {
+    public void Execute(System.Collections.Generic.List<Entity> entities) {
         foreach (var e in entities) {
             if (e.hasView) {
                 e.RemoveView();
