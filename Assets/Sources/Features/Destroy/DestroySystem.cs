@@ -1,16 +1,20 @@
-﻿using Entitas;
+﻿using System.Collections.Generic;
+using Entitas;
 
-public class DestroySystem : IExecuteSystem, ISetPool {
+public class DestroySystem : IReactiveSystem, ISetPool {
+
+    public IMatcher trigger { get { return CoreMatcher.Destroy; } }
+
+    public GroupEventType eventType { get { return GroupEventType.OnEntityAdded; } }
+
     Pool _pool;
-    Group _group;
 
     public void SetPool(Pool pool) {
         _pool = pool;
-        _group = pool.GetGroup(CoreMatcher.Destroy);
     }
 
-    public void Execute() {
-        foreach (var e in _group.GetEntities()) {
+    public void Execute(List<Entity> entities) {
+        foreach (var e in entities) {
             _pool.DestroyEntity(e);
         }
     }

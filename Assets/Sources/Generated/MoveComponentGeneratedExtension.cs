@@ -22,7 +22,7 @@ namespace Entitas {
         }
 
         public Entity ReplaceMove(float newSpeed, float newMaxSpeed) {
-            var previousComponent = move;
+            var previousComponent = hasMove ? move : null;
             var component = _moveComponentPool.Count > 0 ? _moveComponentPool.Pop() : new MoveComponent();
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;

@@ -23,19 +23,26 @@ public class GameController : MonoBehaviour {
         #else
         return new Systems()
         #endif
-            .Add(pool.CreateCreatePlayerSystem())
-            .Add(pool.CreateCreateOpponentsSystem())
-            .Add(pool.CreateCreateFinishLineSystem())
 
-            .Add(pool.CreateRemoveViewSystem())
-            .Add(pool.CreateAddViewSystem())
+            // Initialize
+            .Add(pool.CreateSystem<CreatePlayerSystem>())
+            .Add(pool.CreateSystem<CreateOpponentsSystem>())
+            .Add(pool.CreateSystem<CreateFinishLineSystem>())
 
-            .Add(pool.CreateInputSystem())
-            .Add(pool.CreateAccelerateSystem())
-            .Add(pool.CreateMoveSystem())
-            .Add(pool.CreateReachedFinishSystem())
-            .Add(pool.CreateRenderPositionSystem())
+            // Input
+            .Add(pool.CreateSystem<InputSystem>())
 
-            .Add(pool.CreateDestroySystem());
+            // Update
+            .Add(pool.CreateSystem<AccelerateSystem>())
+            .Add(pool.CreateSystem<MoveSystem>())
+            .Add(pool.CreateSystem<ReachedFinishSystem>())
+
+            // Render
+            .Add(pool.CreateSystem<RemoveViewSystem>())
+            .Add(pool.CreateSystem<AddViewSystem>())
+            .Add(pool.CreateSystem<RenderPositionSystem>())
+
+            // Destroy
+            .Add(pool.CreateSystem<DestroySystem>());
     }
 }

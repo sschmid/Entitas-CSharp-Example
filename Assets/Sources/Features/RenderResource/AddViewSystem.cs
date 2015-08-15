@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
@@ -12,9 +13,18 @@ public class AddViewSystem : IReactiveSystem {
     public void Execute(List<Entity> entities) {
         foreach (var e in entities) {
             var res = Resources.Load<GameObject>(e.resource.name);
-            var gameObject = Object.Instantiate(res);
-            gameObject.transform.parent = _viewContainer;
-            e.AddView(gameObject);
+            GameObject gameObject = null;
+            try {
+                gameObject = UnityEngine.Object.Instantiate(res);
+                
+            } catch (Exception) {
+                Debug.Log("Cannot instantiate " + res);
+            }
+
+            if (gameObject != null) {
+                gameObject.transform.parent = _viewContainer;
+                e.AddView(gameObject);
+            }
         }
     }
 }

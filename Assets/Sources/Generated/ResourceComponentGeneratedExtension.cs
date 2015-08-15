@@ -21,7 +21,7 @@ namespace Entitas {
         }
 
         public Entity ReplaceResource(string newName) {
-            var previousComponent = resource;
+            var previousComponent = hasResource ? resource : null;
             var component = _resourceComponentPool.Count > 0 ? _resourceComponentPool.Pop() : new ResourceComponent();
             component.name = newName;
             ReplaceComponent(CoreComponentIds.Resource, component);
