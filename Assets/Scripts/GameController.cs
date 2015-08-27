@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour {
         Random.seed = 42;
 
         _systems = createSystems(Pools.core);
-        _systems.Start();
+        _systems.Initialize();
     }
 
     void Update() {

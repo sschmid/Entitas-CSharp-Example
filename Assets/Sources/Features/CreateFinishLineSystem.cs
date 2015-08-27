@@ -1,13 +1,13 @@
 ﻿using Entitas;
 
-public class CreateFinishLineSystem : IStartSystem, ISetPool {
+public class CreateFinishLineSystem : IInitializeSystem, ISetPool {
     Pool _pool;
 
     public void SetPool(Pool pool) {
         _pool = pool;
     }
 
-    public void Start() {
+    public void Initialize() {
         _pool.CreateEntity()
             .IsFinishLine(true)
             .AddResource("Finish Line")

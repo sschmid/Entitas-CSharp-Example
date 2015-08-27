@@ -1,14 +1,14 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class CreateOpponentsSystem : IStartSystem, ISetPool {
+public class CreateOpponentsSystem : IInitializeSystem, ISetPool {
     Pool _pool;
 
     public void SetPool(Pool pool) {
         _pool = pool;
     }
 
-    public void Start() {
+    public void Initialize() {
         const string resourceName = "Opponent";
         for (int i = 1; i < 10; i++) {
             var speed = Random.value * 0.02f;

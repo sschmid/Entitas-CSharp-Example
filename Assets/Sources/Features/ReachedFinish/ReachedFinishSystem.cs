@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using Entitas;
 
 public class ReachedFinishSystem : IReactiveSystem, ISetPool {
-    public IMatcher trigger { get { return CoreMatcher.Position; } }
-
-    public GroupEventType eventType { get { return GroupEventType.OnEntityAdded; } }
+    public TriggerOnEvent trigger { get { return CoreMatcher.Position.OnEntityAdded(); } }
 
     Pool _pool;
 

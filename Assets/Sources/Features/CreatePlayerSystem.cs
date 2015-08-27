@@ -1,13 +1,13 @@
 ﻿using Entitas;
 
-public class CreatePlayerSystem : IStartSystem, ISetPool {
+public class CreatePlayerSystem : IInitializeSystem, ISetPool {
     Pool _pool;
 
     public void SetPool(Pool pool) {
         _pool = pool;
     }
 
-    public void Start() {
+    public void Initialize() {
         _pool.CreateEntity()
             .AddResource("Player")
             .AddPosition(0, 0, 0)

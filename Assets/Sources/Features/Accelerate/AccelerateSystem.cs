@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using Entitas;
 
 public class AccelerateSystem : IReactiveSystem, ISetPool {
-    public IMatcher trigger { get { return CoreMatcher.Accelerating; } }
-
-    public GroupEventType eventType { get { return GroupEventType.OnEntityAddedOrRemoved; } }
+    public TriggerOnEvent trigger { get { return CoreMatcher.Accelerating.OnEntityAddedOrRemoved(); } }
 
     Group _group;
 

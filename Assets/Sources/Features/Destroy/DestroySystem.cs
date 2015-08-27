@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Entitas;
 
 public class DestroySystem : IReactiveSystem, ISetPool {
 
-    public IMatcher trigger { get { return CoreMatcher.Destroy; } }
-
-    public GroupEventType eventType { get { return GroupEventType.OnEntityAdded; } }
+    public TriggerOnEvent trigger { get { return CoreMatcher.Destroy.OnEntityAdded(); } }
 
     Pool _pool;
 

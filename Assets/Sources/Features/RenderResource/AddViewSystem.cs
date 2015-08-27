@@ -4,9 +4,7 @@ using Entitas;
 using UnityEngine;
 
 public class AddViewSystem : IReactiveSystem {
-    public IMatcher trigger { get { return CoreMatcher.Resource; } }
-
-    public GroupEventType eventType { get { return GroupEventType.OnEntityAdded; } }
+    public TriggerOnEvent trigger { get { return CoreMatcher.Resource.OnEntityAdded(); } }
 
     readonly Transform _viewContainer = new GameObject("Views").transform;
 

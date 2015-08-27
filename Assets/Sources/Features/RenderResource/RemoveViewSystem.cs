@@ -1,15 +1,11 @@
+using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
 public class RemoveViewSystem : IMultiReactiveSystem, ISetPool, IEnsureComponents {
-    public IMatcher[] triggers { get { return new [] {
-            CoreMatcher.Resource,
-            Matcher.AllOf(CoreMatcher.Resource, CoreMatcher.Destroy)
-        }; } }
-
-    public GroupEventType[] eventTypes { get { return new [] {
-            GroupEventType.OnEntityRemoved,
-            GroupEventType.OnEntityAdded
+    public TriggerOnEvent[] triggers { get { return new [] {
+            CoreMatcher.Resource.OnEntityRemoved(),
+            Matcher.AllOf(CoreMatcher.Resource, CoreMatcher.Destroy).OnEntityAdded()
         }; } }
 
     public IMatcher ensureComponents { get { return CoreMatcher.View; } }
@@ -23,7 +19,7 @@ public class RemoveViewSystem : IMultiReactiveSystem, ISetPool, IEnsureComponent
         Object.Destroy(viewComponent.gameObject);
     }
 
-    public void Execute(System.Collections.Generic.List<Entity> entities) {
+    public void Execute(List<Entity> entities) {
         foreach (var e in entities) {
             e.RemoveView();
         }
