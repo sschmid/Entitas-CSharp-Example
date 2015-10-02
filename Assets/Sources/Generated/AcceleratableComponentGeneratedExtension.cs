@@ -25,12 +25,12 @@ namespace Entitas {
 }
 
     public partial class CoreMatcher {
-        static AllOfMatcher _matcherAcceleratable;
+        static IMatcher _matcherAcceleratable;
 
-        public static AllOfMatcher Acceleratable {
+        public static IMatcher Acceleratable {
             get {
                 if (_matcherAcceleratable == null) {
-                    _matcherAcceleratable = new CoreMatcher(CoreComponentIds.Acceleratable);
+                    _matcherAcceleratable = Matcher.AllOf(CoreComponentIds.Acceleratable);
                 }
 
                 return _matcherAcceleratable;

@@ -12,7 +12,7 @@ public static class CoreComponentIds {
 
     public const int TotalComponents = 8;
 
-    static readonly string[] components = {
+    static readonly string[] _components = {
         "Acceleratable",
         "Accelerating",
         "Destroy",
@@ -24,15 +24,6 @@ public static class CoreComponentIds {
     };
 
     public static string IdToString(int componentId) {
-        return components[componentId];
-    }
-}
-
-public partial class CoreMatcher : AllOfMatcher {
-    public CoreMatcher(int index) : base(new [] { index }) {
-    }
-
-    public override string ToString() {
-        return CoreComponentIds.IdToString(indices[0]);
+        return _components[componentId];
     }
 }

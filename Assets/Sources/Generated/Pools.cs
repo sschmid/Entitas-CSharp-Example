@@ -2,6 +2,18 @@ using Entitas;
 
 public static class Pools {
 
+    static Pool[] _allPools;
+
+    public static Pool[] allPools {
+        get {
+            if (_allPools == null) {
+                _allPools = new [] { core };
+            }
+
+            return _allPools;
+        }
+    }
+
     static Pool _core;
 
     public static Pool core {

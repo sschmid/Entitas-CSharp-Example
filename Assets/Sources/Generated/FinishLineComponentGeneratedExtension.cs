@@ -43,12 +43,12 @@ namespace Entitas {
 }
 
     public partial class CoreMatcher {
-        static AllOfMatcher _matcherFinishLine;
+        static IMatcher _matcherFinishLine;
 
-        public static AllOfMatcher FinishLine {
+        public static IMatcher FinishLine {
             get {
                 if (_matcherFinishLine == null) {
-                    _matcherFinishLine = new CoreMatcher(CoreComponentIds.FinishLine);
+                    _matcherFinishLine = Matcher.AllOf(CoreComponentIds.FinishLine);
                 }
 
                 return _matcherFinishLine;

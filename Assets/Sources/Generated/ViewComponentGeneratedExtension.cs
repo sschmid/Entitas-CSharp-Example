@@ -41,12 +41,12 @@ namespace Entitas {
 }
 
     public partial class CoreMatcher {
-        static AllOfMatcher _matcherView;
+        static IMatcher _matcherView;
 
-        public static AllOfMatcher View {
+        public static IMatcher View {
             get {
                 if (_matcherView == null) {
-                    _matcherView = new CoreMatcher(CoreComponentIds.View);
+                    _matcherView = Matcher.AllOf(CoreComponentIds.View);
                 }
 
                 return _matcherView;

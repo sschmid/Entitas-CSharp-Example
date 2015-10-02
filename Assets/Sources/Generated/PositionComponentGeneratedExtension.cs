@@ -45,12 +45,12 @@ namespace Entitas {
 }
 
     public partial class CoreMatcher {
-        static AllOfMatcher _matcherPosition;
+        static IMatcher _matcherPosition;
 
-        public static AllOfMatcher Position {
+        public static IMatcher Position {
             get {
                 if (_matcherPosition == null) {
-                    _matcherPosition = new CoreMatcher(CoreComponentIds.Position);
+                    _matcherPosition = Matcher.AllOf(CoreComponentIds.Position);
                 }
 
                 return _matcherPosition;

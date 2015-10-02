@@ -43,12 +43,12 @@ namespace Entitas {
 }
 
     public partial class CoreMatcher {
-        static AllOfMatcher _matcherAccelerating;
+        static IMatcher _matcherAccelerating;
 
-        public static AllOfMatcher Accelerating {
+        public static IMatcher Accelerating {
             get {
                 if (_matcherAccelerating == null) {
-                    _matcherAccelerating = new CoreMatcher(CoreComponentIds.Accelerating);
+                    _matcherAccelerating = Matcher.AllOf(CoreComponentIds.Accelerating);
                 }
 
                 return _matcherAccelerating;
