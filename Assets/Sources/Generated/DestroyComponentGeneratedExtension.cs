@@ -30,7 +30,9 @@ namespace Entitas {
         public static IMatcher Destroy {
             get {
                 if (_matcherDestroy == null) {
-                    _matcherDestroy = Matcher.AllOf(CoreComponentIds.Destroy);
+                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.Destroy);
+                    matcher.componentNames = CoreComponentIds.componentNames;
+                    _matcherDestroy = matcher;
                 }
 
                 return _matcherDestroy;

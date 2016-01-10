@@ -48,7 +48,9 @@ namespace Entitas {
         public static IMatcher Accelerating {
             get {
                 if (_matcherAccelerating == null) {
-                    _matcherAccelerating = Matcher.AllOf(CoreComponentIds.Accelerating);
+                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.Accelerating);
+                    matcher.componentNames = CoreComponentIds.componentNames;
+                    _matcherAccelerating = matcher;
                 }
 
                 return _matcherAccelerating;

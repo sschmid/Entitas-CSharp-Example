@@ -10,6 +10,7 @@ namespace Entitas {
         readonly IMatcher _excludeComponents;
         readonly bool _clearAfterExecute;
         readonly List<Entity> _buffer;
+        string _toStringCache;
 
         public ReactiveSystem(Pool pool, IReactiveSystem subSystem) :
             this(pool, subSystem, new [] { subSystem.trigger }) {
@@ -62,25 +63,25 @@ namespace Entitas {
                     if (_excludeComponents != null) {
                         foreach (var e in _observer.collectedEntities) {
                             if (_ensureComponents.Matches(e) && !_excludeComponents.Matches(e)) {
-                                _buffer.Add(e.Retain());
+                                _buffer.Add(e.Retain(this));
                             }
                         }
                     } else {
                         foreach (var e in _observer.collectedEntities) {
                             if (_ensureComponents.Matches(e)) {
-                                _buffer.Add(e.Retain());
+                                _buffer.Add(e.Retain(this));
                             }
                         }
                     }
                 } else if (_excludeComponents != null) {
                     foreach (var e in _observer.collectedEntities) {
                         if (!_excludeComponents.Matches(e)) {
-                            _buffer.Add(e.Retain());
+                            _buffer.Add(e.Retain(this));
                         }
                     }
                 } else {
                     foreach (var e in _observer.collectedEntities) {
-                        _buffer.Add(e.Retain());
+                        _buffer.Add(e.Retain(this));
                     }
                 }
 
@@ -88,7 +89,7 @@ namespace Entitas {
                 if (_buffer.Count != 0) {
                     _subsystem.Execute(_buffer);
                     for (int i = 0, bufferCount = _buffer.Count; i < bufferCount; i++) {
-                        _buffer[i].Release();
+                        _buffer[i].Release(this);
                     }
                     _buffer.Clear();
                     if (_clearAfterExecute) {
@@ -96,6 +97,14 @@ namespace Entitas {
                     }
                 }
             }
+        }
+
+        public override string ToString() {
+            if (_toStringCache == null) {
+                _toStringCache = "ReactiveSystem(" + subsystem + ")";
+            }
+
+            return _toStringCache;
         }
     }
 }

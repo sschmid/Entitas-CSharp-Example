@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Entitas {
     public enum GroupEventType : byte {
@@ -15,6 +16,7 @@ namespace Entitas {
         readonly Group[] _groups;
         readonly GroupEventType[] _eventTypes;
         Group.GroupChanged _addEntityCache;
+        string _toStringCache;
 
         public GroupObserver(Group group, GroupEventType eventType)
             : this(new [] { group }, new [] { eventType }) {
@@ -23,7 +25,8 @@ namespace Entitas {
         public GroupObserver(Group[] groups, GroupEventType[] eventTypes) {
             if (groups.Length != eventTypes.Length) {
                 throw new GroupObserverException("Unbalanced count with groups (" + groups.Length +
-                    ") and event types (" + eventTypes.Length + ")");
+                    ") and event types (" + eventTypes.Length + ").",
+                    "Group and event type count must be equal.");
             }
 
             _collectedEntities = new HashSet<Entity>(EntityEqualityComparer.comparer);
@@ -63,7 +66,7 @@ namespace Entitas {
 
         public void ClearCollectedEntities() {
             foreach (var entity in _collectedEntities) {
-                entity.Release();
+                entity.Release(this);
             }
             _collectedEntities.Clear();
         }
@@ -71,13 +74,33 @@ namespace Entitas {
         void addEntity(Group group, Entity entity, int index, IComponent component) {
             var added = _collectedEntities.Add(entity);
             if (added) {
-                entity.Retain();
+                entity.Retain(this);
             }
+        }
+
+        public override string ToString() {
+            if (_toStringCache == null) {
+                var sb = new StringBuilder().Append("GroupObserver(");
+
+                const string separator = ", ";
+                var lastSeparator = _groups.Length - 1;
+                for (int i = 0, groupsLength = _groups.Length; i < groupsLength; i++) {
+                    sb.Append(_groups[i]);
+                    if (i < lastSeparator) {
+                        sb.Append(separator);
+                    }
+                }
+
+                sb.Append(")");
+                _toStringCache = sb.ToString();
+            }
+
+            return _toStringCache;
         }
     }
 
-    public class GroupObserverException : Exception {
-        public GroupObserverException(string message) : base(message) {
+    public class GroupObserverException : EntitasException {
+        public GroupObserverException(string message, string hint) : base(message, hint) {
         }
     }
 }

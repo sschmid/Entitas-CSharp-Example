@@ -48,7 +48,9 @@ namespace Entitas {
         public static IMatcher FinishLine {
             get {
                 if (_matcherFinishLine == null) {
-                    _matcherFinishLine = Matcher.AllOf(CoreComponentIds.FinishLine);
+                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.FinishLine);
+                    matcher.componentNames = CoreComponentIds.componentNames;
+                    _matcherFinishLine = matcher;
                 }
 
                 return _matcherFinishLine;

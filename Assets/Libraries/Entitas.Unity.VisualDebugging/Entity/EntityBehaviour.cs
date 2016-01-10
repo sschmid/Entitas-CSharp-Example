@@ -1,21 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
 using Entitas;
+using UnityEngine;
 
 namespace Entitas.Unity.VisualDebugging {
     public class EntityBehaviour : MonoBehaviour {
         public Pool pool { get { return _pool; } }
         public Entity entity { get { return _entity; } }
+        public Type[] componentTypes { get { return _componentTypes; } }
         public bool[] unfoldedComponents { get { return _unfoldedComponents; } }
+
+        public int componentToAdd;
 
         Pool _pool;
         Entity _entity;
+        Type[] _componentTypes;
         bool[] _unfoldedComponents;
 
-        public void Init(Pool pool, Entity entity) {
+        public void Init(Pool pool, Entity entity, Type[] componentTypes) {
             _pool = pool;
             _entity = entity;
+            _componentTypes = componentTypes;
+            componentToAdd = -1;
             _unfoldedComponents = new bool[_pool.totalComponents];
             _entity.OnEntityReleased += onEntityReleased;
+            Update();
 
             UnfoldAllComponents();
         }

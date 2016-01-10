@@ -1,5 +1,3 @@
-using Entitas;
-
 public static class CoreComponentIds {
     public const int Acceleratable = 0;
     public const int Accelerating = 1;
@@ -12,7 +10,7 @@ public static class CoreComponentIds {
 
     public const int TotalComponents = 8;
 
-    static readonly string[] _components = {
+    public static readonly string[] componentNames = {
         "Acceleratable",
         "Accelerating",
         "Destroy",
@@ -23,7 +21,14 @@ public static class CoreComponentIds {
         "View"
     };
 
-    public static string IdToString(int componentId) {
-        return _components[componentId];
-    }
+    public static readonly System.Type[] componentTypes = {
+        typeof(AcceleratableComponent),
+        typeof(AcceleratingComponent),
+        typeof(DestroyComponent),
+        typeof(FinishLineComponent),
+        typeof(MoveComponent),
+        typeof(PositionComponent),
+        typeof(ResourceComponent),
+        typeof(ViewComponent)
+    };
 }

@@ -46,7 +46,9 @@ namespace Entitas {
         public static IMatcher View {
             get {
                 if (_matcherView == null) {
-                    _matcherView = Matcher.AllOf(CoreComponentIds.View);
+                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.View);
+                    matcher.componentNames = CoreComponentIds.componentNames;
+                    _matcherView = matcher;
                 }
 
                 return _matcherView;
