@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Entitas;
 
 namespace Entitas {
@@ -8,36 +6,25 @@ namespace Entitas {
 
         public bool hasMove { get { return HasComponent(CoreComponentIds.Move); } }
 
-        static readonly Stack<MoveComponent> _moveComponentPool = new Stack<MoveComponent>();
-
-        public static void ClearMoveComponentPool() {
-            _moveComponentPool.Clear();
-        }
-
         public Entity AddMove(float newSpeed, float newMaxSpeed) {
-            var component = _moveComponentPool.Count > 0 ? _moveComponentPool.Pop() : new MoveComponent();
+            var componentPool = GetComponentPool(CoreComponentIds.Move);
+            var component = (MoveComponent)(componentPool.Count > 0 ? componentPool.Pop() : new MoveComponent());
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
             return AddComponent(CoreComponentIds.Move, component);
         }
 
         public Entity ReplaceMove(float newSpeed, float newMaxSpeed) {
-            var previousComponent = hasMove ? move : null;
-            var component = _moveComponentPool.Count > 0 ? _moveComponentPool.Pop() : new MoveComponent();
+            var componentPool = GetComponentPool(CoreComponentIds.Move);
+            var component = (MoveComponent)(componentPool.Count > 0 ? componentPool.Pop() : new MoveComponent());
             component.speed = newSpeed;
             component.maxSpeed = newMaxSpeed;
             ReplaceComponent(CoreComponentIds.Move, component);
-            if (previousComponent != null) {
-                _moveComponentPool.Push(previousComponent);
-            }
             return this;
         }
 
         public Entity RemoveMove() {
-            var component = move;
-            RemoveComponent(CoreComponentIds.Move);
-            _moveComponentPool.Push(component);
-            return this;
+            return RemoveComponent(CoreComponentIds.Move);;
         }
     }
 }
