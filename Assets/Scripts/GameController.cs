@@ -18,11 +18,7 @@ public class GameController : MonoBehaviour {
     }
 
     Systems createSystems(Pool pool) {
-        #if (UNITY_EDITOR)
-        return new DebugSystems()
-        #else
-        return new Systems()
-        #endif
+        return new Feature("Systems")
 
             // Initialize
             .Add(pool.CreateSystem<CreatePlayerSystem>())
