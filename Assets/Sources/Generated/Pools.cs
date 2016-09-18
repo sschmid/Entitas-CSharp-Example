@@ -6,35 +6,20 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using Entitas;
+namespace Entitas {
 
-public static class Pools {
+    public partial class Pools {
 
-    static Pool[] _allPools;
-
-    public static Pool[] allPools {
-        get {
-            if (_allPools == null) {
-                _allPools = new [] { core };
-            }
-
-            return _allPools;
+        public static Pool CreateCorePool() {
+            return CreatePool("Core", CoreComponentIds.TotalComponents, CoreComponentIds.componentNames, CoreComponentIds.componentTypes);
         }
-    }
 
-    static Pool _core;
+        public Pool[] allPools { get { return new [] { core }; } }
 
-    public static Pool core {
-        get {
-            if (_core == null) {
-                _core = new Pool(CoreComponentIds.TotalComponents, 0, new PoolMetaData("Core Pool", CoreComponentIds.componentNames, CoreComponentIds.componentTypes));
-                #if (!ENTITAS_DISABLE_VISUAL_DEBUGGING && UNITY_EDITOR)
-                var poolObserver = new Entitas.Unity.VisualDebugging.PoolObserver(_core);
-                UnityEngine.Object.DontDestroyOnLoad(poolObserver.entitiesContainer);
-                #endif
-            }
+        public Pool core;
 
-            return _core;
+        public void SetAllPools() {
+            core = CreateCorePool();
         }
     }
 }
