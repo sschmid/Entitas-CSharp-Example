@@ -22,5 +22,4 @@ test-results
 Entitas Example-csharp.sln
 Entitas Example.sln
 
-bin
-!bin/Entitas.zip
+ProjectVersion.txt
