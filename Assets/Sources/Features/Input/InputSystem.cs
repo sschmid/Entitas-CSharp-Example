@@ -10,6 +10,6 @@ public sealed class InputSystem : ISetPool, IExecuteSystem {
     }
 
     public void Execute() {
-        _pool.isAccelerating = Input.GetMouseButton(0);
+        _pool.isAccelerating = Input.GetButton("Fire1");
     }
 }
