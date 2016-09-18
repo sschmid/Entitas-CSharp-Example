@@ -1,6 +1,6 @@
-﻿using Entitas;
+using Entitas;
 
-public class CreateFinishLineSystem : ISetPool, IInitializeSystem {
+public sealed class CreateFinishLineSystem : ISetPool, IInitializeSystem {
 
     Pool _pool;
 

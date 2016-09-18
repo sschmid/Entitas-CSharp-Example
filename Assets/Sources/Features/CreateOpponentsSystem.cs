@@ -1,7 +1,7 @@
-﻿using Entitas;
+using Entitas;
 using UnityEngine;
 
-public class CreateOpponentsSystem : ISetPool, IInitializeSystem {
+public sealed class CreateOpponentsSystem : ISetPool, IInitializeSystem {
 
     Pool _pool;
 

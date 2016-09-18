@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class RenderPositionSystem : IReactiveSystem, IEnsureComponents {
+public sealed class RenderPositionSystem : IReactiveSystem, IEnsureComponents {
 
     public TriggerOnEvent trigger { get { return Matcher.AllOf(CoreMatcher.View, CoreMatcher.Position).OnEntityAdded(); } }
 

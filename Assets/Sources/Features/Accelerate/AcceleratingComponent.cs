@@ -1,6 +1,6 @@
-﻿using Entitas;
+using Entitas;
 using Entitas.CodeGenerator;
 
 [Core, SingleEntity]
-public class AcceleratingComponent : IComponent {
+public sealed class AcceleratingComponent : IComponent {
 }

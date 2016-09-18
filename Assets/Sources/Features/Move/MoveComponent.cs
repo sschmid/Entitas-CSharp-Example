@@ -1,7 +1,7 @@
-﻿using Entitas;
+using Entitas;
 
 [Core]
-public class MoveComponent : IComponent {
+public sealed class MoveComponent : IComponent {
 
     public float speed;
     public float maxSpeed;

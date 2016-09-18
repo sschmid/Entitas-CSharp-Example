@@ -1,7 +1,7 @@
-﻿using Entitas;
+using Entitas;
 
 [Core]
-public class PositionComponent : IComponent {
+public sealed class PositionComponent : IComponent {
 
     public float x;
     public float y;

@@ -1,5 +1,5 @@
-﻿using Entitas;
+using Entitas;
 
 [Core]
-public class DestroyComponent : IComponent {
+public sealed class DestroyComponent : IComponent {
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Entitas;
 
-public class ReachedFinishSystem : ISetPool, IReactiveSystem {
+public sealed class ReachedFinishSystem : ISetPool, IReactiveSystem {
 
     public TriggerOnEvent trigger { get { return CoreMatcher.Position.OnEntityAdded(); } }
 

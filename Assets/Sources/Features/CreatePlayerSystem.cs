@@ -1,6 +1,6 @@
-﻿using Entitas;
+using Entitas;
 
-public class CreatePlayerSystem : ISetPool, IInitializeSystem {
+public sealed class CreatePlayerSystem : ISetPool, IInitializeSystem {
 
     Pool _pool;
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class RemoveViewSystem : ISetPool, IMultiReactiveSystem, IEnsureComponents {
+public sealed class RemoveViewSystem : ISetPool, IMultiReactiveSystem, IEnsureComponents {
 
     public TriggerOnEvent[] triggers {
         get {

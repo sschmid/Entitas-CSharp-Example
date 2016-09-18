@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class AddViewSystem : IReactiveSystem {
+public sealed class AddViewSystem : IReactiveSystem {
 
     public TriggerOnEvent trigger { get { return CoreMatcher.Resource.OnEntityAdded(); } }
 

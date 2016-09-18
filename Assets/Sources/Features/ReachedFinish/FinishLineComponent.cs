@@ -1,6 +1,6 @@
-﻿using Entitas;
+using Entitas;
 using Entitas.CodeGenerator;
 
 [Core, SingleEntity]
-public class FinishLineComponent : IComponent {
+public sealed class FinishLineComponent : IComponent {
 }

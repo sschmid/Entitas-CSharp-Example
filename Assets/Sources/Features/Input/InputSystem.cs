@@ -1,7 +1,7 @@
-﻿using Entitas;
+using Entitas;
 using UnityEngine;
 
-public class InputSystem : ISetPool, IExecuteSystem {
+public sealed class InputSystem : ISetPool, IExecuteSystem {
 
     Pool _pool;
 

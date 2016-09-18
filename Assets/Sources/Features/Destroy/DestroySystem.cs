@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Entitas;
 
-public class DestroySystem : ISetPool, IReactiveSystem {
+public sealed class DestroySystem : ISetPool, IReactiveSystem {
 
     public TriggerOnEvent trigger { get { return CoreMatcher.Destroy.OnEntityAdded(); } }
 

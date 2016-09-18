@@ -1,5 +1,5 @@
-﻿using Entitas;
+using Entitas;
 
 [Core]
-public class AcceleratableComponent : IComponent {
+public sealed class AcceleratableComponent : IComponent {
 }
