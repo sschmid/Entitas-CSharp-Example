@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Entitas;
 using Entitas.Unity.VisualDebugging;
 
@@ -21,24 +21,24 @@ public class GameController : MonoBehaviour {
         return new Feature("Systems")
 
             // Initialize
-            .Add(pool.CreateSystem<CreatePlayerSystem>())
-            .Add(pool.CreateSystem<CreateOpponentsSystem>())
-            .Add(pool.CreateSystem<CreateFinishLineSystem>())
+            .Add(pool.CreateSystem(new CreatePlayerSystem()))
+            .Add(pool.CreateSystem(new CreateOpponentsSystem()))
+            .Add(pool.CreateSystem(new CreateFinishLineSystem()))
 
             // Input
-            .Add(pool.CreateSystem<InputSystem>())
+            .Add(pool.CreateSystem(new InputSystem()))
 
             // Update
-            .Add(pool.CreateSystem<AccelerateSystem>())
-            .Add(pool.CreateSystem<MoveSystem>())
-            .Add(pool.CreateSystem<ReachedFinishSystem>())
+            .Add(pool.CreateSystem(new AccelerateSystem()))
+            .Add(pool.CreateSystem(new MoveSystem()))
+            .Add(pool.CreateSystem(new ReachedFinishSystem()))
 
             // Render
-            .Add(pool.CreateSystem<RemoveViewSystem>())
-            .Add(pool.CreateSystem<AddViewSystem>())
-            .Add(pool.CreateSystem<RenderPositionSystem>())
+            .Add(pool.CreateSystem(new RemoveViewSystem()))
+            .Add(pool.CreateSystem(new AddViewSystem()))
+            .Add(pool.CreateSystem(new RenderPositionSystem()))
 
             // Destroy
-            .Add(pool.CreateSystem<DestroySystem>());
+            .Add(pool.CreateSystem(new DestroySystem()));
     }
 }
