@@ -1,4 +1,5 @@
 ﻿namespace Entitas.Migration {
+
     public class M0300 : IMigration {
 
         public string version { get { return "0.30.0"; } }
@@ -15,8 +16,6 @@
 
                 file.fileContent = file.fileContent.Replace("ComponentsGenerator", "ComponentExtensionsGenerator");
                 file.fileContent = file.fileContent.Replace("PoolAttributeGenerator", "PoolAttributesGenerator");
-
-                files[i] = file;
             }
 
             return files;
