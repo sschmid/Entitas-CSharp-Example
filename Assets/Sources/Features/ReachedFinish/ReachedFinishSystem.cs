@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using Entitas;
 
-public class ReachedFinishSystem : IReactiveSystem, ISetPool {
+public class ReachedFinishSystem : ISetPool, IReactiveSystem {
+
     public TriggerOnEvent trigger { get { return CoreMatcher.Position.OnEntityAdded(); } }
 
     Pool _pool;
@@ -12,8 +13,8 @@ public class ReachedFinishSystem : IReactiveSystem, ISetPool {
 
     public void Execute(List<Entity> entities) {
         var finishLinePosY = _pool.finishLineEntity.position.y;
-        foreach (var e in entities) {
-            if (e.position.y > finishLinePosY) {
+        foreach(var e in entities) {
+            if(e.position.y > finishLinePosY) {
                 e.isDestroy = true;
             }
         }

@@ -1,8 +1,8 @@
 ﻿using Entitas;
 using UnityEngine;
 
-[Core]
-public class InputSystem : IExecuteSystem, ISetPool {
+public class InputSystem : ISetPool, IExecuteSystem {
+
     Pool _pool;
 
     public void SetPool(Pool pool) {
@@ -13,4 +13,3 @@ public class InputSystem : IExecuteSystem, ISetPool {
         _pool.isAccelerating = Input.GetMouseButton(0);
     }
 }
-

@@ -1,7 +1,8 @@
 ﻿using Entitas;
 using UnityEngine;
 
-public class CreateOpponentsSystem : IInitializeSystem, ISetPool {
+public class CreateOpponentsSystem : ISetPool, IInitializeSystem {
+
     Pool _pool;
 
     public void SetPool(Pool pool) {
@@ -10,7 +11,7 @@ public class CreateOpponentsSystem : IInitializeSystem, ISetPool {
 
     public void Initialize() {
         const string resourceName = "Opponent";
-        for (int i = 1; i < 10; i++) {
+        for(int i = 1; i < 10; i++) {
             var speed = Random.value * 0.02f;
             _pool.CreateEntity()
                 .AddResource(resourceName)
@@ -19,4 +20,3 @@ public class CreateOpponentsSystem : IInitializeSystem, ISetPool {
         }
     }
 }
-

@@ -3,4 +3,3 @@
 [Core]
 public class AcceleratableComponent : IComponent {
 }
-

@@ -1,6 +1,7 @@
 ﻿using Entitas;
 
-public class CreatePlayerSystem : IInitializeSystem, ISetPool {
+public class CreatePlayerSystem : ISetPool, IInitializeSystem {
+
     Pool _pool;
 
     public void SetPool(Pool pool) {
@@ -15,4 +16,3 @@ public class CreatePlayerSystem : IInitializeSystem, ISetPool {
             .IsAcceleratable(true);
     }
 }
-

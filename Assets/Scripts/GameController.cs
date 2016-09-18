@@ -1,6 +1,5 @@
 using UnityEngine;
 using Entitas;
-using Entitas.Unity.VisualDebugging;
 
 public class GameController : MonoBehaviour {
 
@@ -9,7 +8,10 @@ public class GameController : MonoBehaviour {
     void Start() {
         Random.seed = 42;
 
-        _systems = createSystems(Pools.core);
+        var pools = Pools.sharedInstance;
+        pools.SetAllPools();
+
+        _systems = createSystems(pools.core);
         _systems.Initialize();
     }
 

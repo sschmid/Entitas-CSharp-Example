@@ -1,6 +1,7 @@
 ﻿using Entitas;
 
-public class MoveSystem : IExecuteSystem, ISetPool {
+public sealed class MoveSystem : ISetPool, IExecuteSystem {
+
     Group _group;
 
     public void SetPool(Pool pool) {

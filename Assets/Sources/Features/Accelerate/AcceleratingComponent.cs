@@ -4,4 +4,3 @@ using Entitas.CodeGenerator;
 [Core, SingleEntity]
 public class AcceleratingComponent : IComponent {
 }
-
