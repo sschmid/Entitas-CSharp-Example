@@ -10,6 +10,8 @@ public sealed class InputSystem : ISetPool, IExecuteSystem {
     }
 
     public void Execute() {
-        _pool.isAccelerating = Input.GetButton("Fire1");
+        _pool.isAccelerating =
+            Input.GetButton("Fire1") ||
+            Input.GetAxisRaw("Vertical") > 0;
     }
 }
