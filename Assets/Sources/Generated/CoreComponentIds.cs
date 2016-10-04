@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public static class CoreComponentIds {
+
     public const int Acceleratable = 0;
     public const int Accelerating = 1;
     public const int Destroy = 2;
