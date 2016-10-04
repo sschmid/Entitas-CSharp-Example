@@ -9,7 +9,7 @@ namespace Entitas.Migration {
 
         public string workingDirectory { get { return "project root"; } }
 
-        public string description { get { return "Updates Entitas.properties to use renamed keys and updates calls to pool.CreateSystem(new T())"; } }
+        public string description { get { return "Updates Entitas.properties to use renamed keys and updates calls to pool.CreateSystem<T>()"; } }
 
         public MigrationFile[] Migrate(string path) {
             var properties = MigrationUtils.GetFiles(path, "Entitas.properties");
@@ -45,4 +45,3 @@ namespace Entitas.Migration {
         }
     }
 }
-
