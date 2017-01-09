@@ -7,7 +7,7 @@ public sealed class AccelerateSystem : ISetPool, IReactiveSystem {
 
     Group _group;
 
-    public void SetPool(Pool pool) {
+    public void SetPool(Context pool) {
         _group = pool.GetGroup(Matcher.AllOf(GameMatcher.Acceleratable, GameMatcher.Move));
     }
 

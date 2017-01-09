@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         Random.InitState(42);
 
-        var pools = Pools.sharedInstance;
+        var pools = Contexts.sharedInstance;
         pools.SetAllPools();
 
         _systems = createSystems(pools.game);
@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour {
         _systems.Execute();
     }
 
-    Systems createSystems(Pool pool) {
+    Systems createSystems(Context pool) {
         return new Feature("Systems")
 
             // Initialize

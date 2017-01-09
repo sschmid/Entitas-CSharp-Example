@@ -3,9 +3,9 @@ using UnityEngine;
 
 public sealed class InputSystem : ISetPool, IExecuteSystem {
 
-    Pool _pool;
+    Context _pool;
 
-    public void SetPool(Pool pool) {
+    public void SetPool(Context pool) {
         _pool = pool;
     }
 

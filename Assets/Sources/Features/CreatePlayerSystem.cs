@@ -2,9 +2,9 @@ using Entitas;
 
 public sealed class CreatePlayerSystem : ISetPool, IInitializeSystem {
 
-    Pool _pool;
+    Context _pool;
 
-    public void SetPool(Pool pool) {
+    public void SetPool(Context pool) {
         _pool = pool;
     }
 

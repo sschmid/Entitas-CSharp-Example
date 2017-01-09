@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
 
-    public partial class Pools {
+    public partial class Contexts {
 
-        public static Pool CreateGamePool() {
-            return CreatePool("Game", GameComponentIds.TotalComponents, GameComponentIds.componentNames, GameComponentIds.componentTypes);
+        public static Context CreateGamePool() {
+            return CreateContext("Game", GameComponentIds.TotalComponents, GameComponentIds.componentNames, GameComponentIds.componentTypes);
         }
 
-        public Pool[] allPools { get { return new [] { game }; } }
+        public Context[] allPools { get { return new [] { game }; } }
 
-        public Pool game;
+        public Context game;
 
         public void SetAllPools() {
             game = CreateGamePool();
