@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour {
     Systems _systems;
 
     void Start() {
-        Random.seed = 42;
+        Random.InitState(42);
 
         var pools = Pools.sharedInstance;
         pools.SetAllPools();
