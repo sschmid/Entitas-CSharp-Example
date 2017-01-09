@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Entitas.Unity.Serialization.Blueprints {
 
-    [CreateAssetMenu(menuName = "Entitas/Blueprint", fileName = "Assets/New Blueprint.asset")]
+    [CreateAssetMenu(menuName = "Entitas/Blueprint", fileName = "New Blueprint.asset")]
     public class BinaryBlueprint : ScriptableObject {
 
         public byte[] blueprintData;
@@ -27,7 +27,7 @@ namespace Entitas.Unity.Serialization.Blueprints {
         }
 
         public void Serialize(Entity entity) {
-            var blueprint = new Blueprint(entity.poolMetaData.poolName, name, entity);
+            var blueprint = new Blueprint(entity.contextInfo.name, name, entity);
             Serialize(blueprint);
         }
 

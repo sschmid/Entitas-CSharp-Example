@@ -7,7 +7,7 @@ namespace Entitas.CodeGenerator {
 
     public static class CodeGenerator {
 
-        public const string DEFAULT_POOL_NAME = "Pool";
+        public const string DEFAULT_CONTEXT_NAME = "Context";
         public const string COMPONENT_SUFFIX = "Component";
 
         public const string DEFAULT_COMPONENT_LOOKUP_TAG = "ComponentIds";
@@ -28,8 +28,8 @@ namespace Entitas.CodeGenerator {
             var generatedFiles = new List<CodeGenFile>();
             var componentInfos = provider.componentInfos;
 
-            foreach(var generator in codeGenerators.OfType<IPoolCodeGenerator>()) {
-                var files = generator.Generate(provider.poolNames);
+            foreach(var generator in codeGenerators.OfType<IContextCodeGenerator>()) {
+                var files = generator.Generate(provider.contextNames);
                 generatedFiles.AddRange(files);
                 writeFiles(directory, files);
             }
@@ -81,26 +81,26 @@ namespace Entitas.CodeGenerator {
             }
             foreach(var file in files) {
                 var fileName = directory + file.fileName + ".cs";
-                var fileContent = file.fileContent.Replace("\n", Environment.NewLine);
                 var header = string.Format(AUTO_GENERATED_HEADER_FORMAT, file.generatorName);
-                File.WriteAllText(fileName, header + fileContent);
+                var fileContent = (header + file.fileContent).Replace("\n", Environment.NewLine);
+                File.WriteAllText(fileName, fileContent);
             }
         }
     }
 
     public static class CodeGeneratorExtensions {
 
-        public static bool IsDefaultPoolName(this string poolName) {
-            return poolName == CodeGenerator.DEFAULT_POOL_NAME;
+        public static bool IsDefaultContextName(this string contextName) {
+            return contextName == CodeGenerator.DEFAULT_CONTEXT_NAME;
         }
 
-        public static string PoolPrefix(this string poolName) {
-            return poolName.IsDefaultPoolName() ? string.Empty : poolName;
+        public static string ContextPrefix(this string contextName) {
+            return contextName.IsDefaultContextName() ? string.Empty : contextName;
         }
 
         public static string[] ComponentLookupTags(this ComponentInfo componentInfo) {
-            return componentInfo.pools
-                .Select(poolName => poolName.PoolPrefix() + CodeGenerator.DEFAULT_COMPONENT_LOOKUP_TAG)
+            return componentInfo.contexts
+                .Select(contextName => contextName.ContextPrefix() + CodeGenerator.DEFAULT_COMPONENT_LOOKUP_TAG)
                 .ToArray();
         }
 
