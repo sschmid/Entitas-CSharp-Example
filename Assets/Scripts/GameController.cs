@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour {
         var pools = Pools.sharedInstance;
         pools.SetAllPools();
 
-        _systems = createSystems(pools.core);
+        _systems = createSystems(pools.game);
         _systems.Initialize();
     }
 

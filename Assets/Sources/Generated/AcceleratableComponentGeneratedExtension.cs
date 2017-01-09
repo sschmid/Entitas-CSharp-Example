@@ -15,13 +15,13 @@ namespace Entitas {
         static readonly AcceleratableComponent acceleratableComponent = new AcceleratableComponent();
 
         public bool isAcceleratable {
-            get { return HasComponent(CoreComponentIds.Acceleratable); }
+            get { return HasComponent(GameComponentIds.Acceleratable); }
             set {
                 if(value != isAcceleratable) {
                     if(value) {
-                        AddComponent(CoreComponentIds.Acceleratable, acceleratableComponent);
+                        AddComponent(GameComponentIds.Acceleratable, acceleratableComponent);
                     } else {
-                        RemoveComponent(CoreComponentIds.Acceleratable);
+                        RemoveComponent(GameComponentIds.Acceleratable);
                     }
                 }
             }
@@ -34,15 +34,15 @@ namespace Entitas {
     }
 }
 
-    public partial class CoreMatcher {
+    public partial class GameMatcher {
 
         static IMatcher _matcherAcceleratable;
 
         public static IMatcher Acceleratable {
             get {
                 if(_matcherAcceleratable == null) {
-                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.Acceleratable);
-                    matcher.componentNames = CoreComponentIds.componentNames;
+                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.Acceleratable);
+                    matcher.componentNames = GameComponentIds.componentNames;
                     _matcherAcceleratable = matcher;
                 }
 

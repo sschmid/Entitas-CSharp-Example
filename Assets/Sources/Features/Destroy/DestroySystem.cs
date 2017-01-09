@@ -3,7 +3,7 @@ using Entitas;
 
 public sealed class DestroySystem : ISetPool, IReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return CoreMatcher.Destroy.OnEntityAdded(); } }
+    public TriggerOnEvent trigger { get { return GameMatcher.Destroy.OnEntityAdded(); } }
 
     Pool _pool;
 

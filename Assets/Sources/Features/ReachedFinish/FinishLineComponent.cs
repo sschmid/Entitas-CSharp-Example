@@ -1,6 +1,6 @@
 using Entitas;
 using Entitas.CodeGenerator;
 
-[Core, SingleEntity]
+[Game, SingleEntity]
 public sealed class FinishLineComponent : IComponent {
 }

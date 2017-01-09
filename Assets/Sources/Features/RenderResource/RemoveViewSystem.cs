@@ -7,16 +7,16 @@ public sealed class RemoveViewSystem : ISetPool, IMultiReactiveSystem, IEnsureCo
     public TriggerOnEvent[] triggers {
         get {
             return new [] {
-                CoreMatcher.Resource.OnEntityRemoved(),
-                Matcher.AllOf(CoreMatcher.Resource, CoreMatcher.Destroy).OnEntityAdded()
+                GameMatcher.Resource.OnEntityRemoved(),
+                Matcher.AllOf(GameMatcher.Resource, GameMatcher.Destroy).OnEntityAdded()
             };
         }
     }
 
-    public IMatcher ensureComponents { get { return CoreMatcher.View; } }
+    public IMatcher ensureComponents { get { return GameMatcher.View; } }
 
     public void SetPool(Pool pool) {
-        pool.GetGroup(CoreMatcher.View).OnEntityRemoved += onEntityRemoved;
+        pool.GetGroup(GameMatcher.View).OnEntityRemoved += onEntityRemoved;
     }
 
     void onEntityRemoved(Group group, Entity entity, int index, IComponent component) {

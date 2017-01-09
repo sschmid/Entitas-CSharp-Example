@@ -1,6 +1,6 @@
 using Entitas;
 
-[Core]
+[Game]
 public sealed class ResourceComponent : IComponent {
 
     public string name;

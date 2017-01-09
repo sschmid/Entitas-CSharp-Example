@@ -12,37 +12,37 @@ namespace Entitas {
 
     public partial class Entity {
 
-        public ResourceComponent resource { get { return (ResourceComponent)GetComponent(CoreComponentIds.Resource); } }
-        public bool hasResource { get { return HasComponent(CoreComponentIds.Resource); } }
+        public ResourceComponent resource { get { return (ResourceComponent)GetComponent(GameComponentIds.Resource); } }
+        public bool hasResource { get { return HasComponent(GameComponentIds.Resource); } }
 
         public Entity AddResource(string newName) {
-            var component = CreateComponent<ResourceComponent>(CoreComponentIds.Resource);
+            var component = CreateComponent<ResourceComponent>(GameComponentIds.Resource);
             component.name = newName;
-            return AddComponent(CoreComponentIds.Resource, component);
+            return AddComponent(GameComponentIds.Resource, component);
         }
 
         public Entity ReplaceResource(string newName) {
-            var component = CreateComponent<ResourceComponent>(CoreComponentIds.Resource);
+            var component = CreateComponent<ResourceComponent>(GameComponentIds.Resource);
             component.name = newName;
-            ReplaceComponent(CoreComponentIds.Resource, component);
+            ReplaceComponent(GameComponentIds.Resource, component);
             return this;
         }
 
         public Entity RemoveResource() {
-            return RemoveComponent(CoreComponentIds.Resource);
+            return RemoveComponent(GameComponentIds.Resource);
         }
     }
 }
 
-    public partial class CoreMatcher {
+    public partial class GameMatcher {
 
         static IMatcher _matcherResource;
 
         public static IMatcher Resource {
             get {
                 if(_matcherResource == null) {
-                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.Resource);
-                    matcher.componentNames = CoreComponentIds.componentNames;
+                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.Resource);
+                    matcher.componentNames = GameComponentIds.componentNames;
                     _matcherResource = matcher;
                 }
 

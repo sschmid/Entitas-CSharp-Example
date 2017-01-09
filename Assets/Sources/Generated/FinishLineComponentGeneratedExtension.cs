@@ -15,13 +15,13 @@ namespace Entitas {
         static readonly FinishLineComponent finishLineComponent = new FinishLineComponent();
 
         public bool isFinishLine {
-            get { return HasComponent(CoreComponentIds.FinishLine); }
+            get { return HasComponent(GameComponentIds.FinishLine); }
             set {
                 if(value != isFinishLine) {
                     if(value) {
-                        AddComponent(CoreComponentIds.FinishLine, finishLineComponent);
+                        AddComponent(GameComponentIds.FinishLine, finishLineComponent);
                     } else {
-                        RemoveComponent(CoreComponentIds.FinishLine);
+                        RemoveComponent(GameComponentIds.FinishLine);
                     }
                 }
             }
@@ -35,7 +35,7 @@ namespace Entitas {
 
     public partial class Pool {
 
-        public Entity finishLineEntity { get { return GetGroup(CoreMatcher.FinishLine).GetSingleEntity(); } }
+        public Entity finishLineEntity { get { return GetGroup(GameMatcher.FinishLine).GetSingleEntity(); } }
 
         public bool isFinishLine {
             get { return finishLineEntity != null; }
@@ -53,15 +53,15 @@ namespace Entitas {
     }
 }
 
-    public partial class CoreMatcher {
+    public partial class GameMatcher {
 
         static IMatcher _matcherFinishLine;
 
         public static IMatcher FinishLine {
             get {
                 if(_matcherFinishLine == null) {
-                    var matcher = (Matcher)Matcher.AllOf(CoreComponentIds.FinishLine);
-                    matcher.componentNames = CoreComponentIds.componentNames;
+                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.FinishLine);
+                    matcher.componentNames = GameComponentIds.componentNames;
                     _matcherFinishLine = matcher;
                 }
 

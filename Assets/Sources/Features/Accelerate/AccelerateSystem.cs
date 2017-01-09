@@ -3,12 +3,12 @@ using Entitas;
 
 public sealed class AccelerateSystem : ISetPool, IReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return CoreMatcher.Accelerating.OnEntityAddedOrRemoved(); } }
+    public TriggerOnEvent trigger { get { return GameMatcher.Accelerating.OnEntityAddedOrRemoved(); } }
 
     Group _group;
 
     public void SetPool(Pool pool) {
-        _group = pool.GetGroup(Matcher.AllOf(CoreMatcher.Acceleratable, CoreMatcher.Move));
+        _group = pool.GetGroup(Matcher.AllOf(GameMatcher.Acceleratable, GameMatcher.Move));
     }
 
     public void Execute(List<Entity> entities) {

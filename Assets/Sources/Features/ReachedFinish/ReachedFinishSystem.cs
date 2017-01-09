@@ -3,7 +3,7 @@ using Entitas;
 
 public sealed class ReachedFinishSystem : ISetPool, IReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return CoreMatcher.Position.OnEntityAdded(); } }
+    public TriggerOnEvent trigger { get { return GameMatcher.Position.OnEntityAdded(); } }
 
     Pool _pool;
 

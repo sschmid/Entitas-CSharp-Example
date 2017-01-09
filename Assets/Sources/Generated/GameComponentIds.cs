@@ -6,7 +6,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-public static class CoreComponentIds {
+public static class GameComponentIds {
 
     public const int Acceleratable = 0;
     public const int Accelerating = 1;

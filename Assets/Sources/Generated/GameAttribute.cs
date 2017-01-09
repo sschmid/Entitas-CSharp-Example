@@ -8,9 +8,9 @@
 //------------------------------------------------------------------------------
 using Entitas.CodeGenerator;
 
-public class CoreAttribute : PoolAttribute {
+public class GameAttribute : PoolAttribute {
 
-    public CoreAttribute() : base("Core") {
+    public GameAttribute() : base("Game") {
     }
 }
 

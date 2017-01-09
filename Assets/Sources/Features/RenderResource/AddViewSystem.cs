@@ -5,7 +5,7 @@ using UnityEngine;
 
 public sealed class AddViewSystem : IReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return CoreMatcher.Resource.OnEntityAdded(); } }
+    public TriggerOnEvent trigger { get { return GameMatcher.Resource.OnEntityAdded(); } }
 
     readonly Transform _viewContainer = new GameObject("Views").transform;
 

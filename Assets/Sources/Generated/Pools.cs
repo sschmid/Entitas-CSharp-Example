@@ -10,16 +10,16 @@ namespace Entitas {
 
     public partial class Pools {
 
-        public static Pool CreateCorePool() {
-            return CreatePool("Core", CoreComponentIds.TotalComponents, CoreComponentIds.componentNames, CoreComponentIds.componentTypes);
+        public static Pool CreateGamePool() {
+            return CreatePool("Game", GameComponentIds.TotalComponents, GameComponentIds.componentNames, GameComponentIds.componentTypes);
         }
 
-        public Pool[] allPools { get { return new [] { core }; } }
+        public Pool[] allPools { get { return new [] { game }; } }
 
-        public Pool core;
+        public Pool game;
 
         public void SetAllPools() {
-            core = CreateCorePool();
+            game = CreateGamePool();
         }
     }
 }

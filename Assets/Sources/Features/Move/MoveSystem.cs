@@ -5,7 +5,7 @@ public sealed class MoveSystem : ISetPool, IExecuteSystem {
     Group _group;
 
     public void SetPool(Pool pool) {
-        _group = pool.GetGroup(Matcher.AllOf(CoreMatcher.Move, CoreMatcher.Position));
+        _group = pool.GetGroup(Matcher.AllOf(GameMatcher.Move, GameMatcher.Position));
     }
 
     public void Execute() {
