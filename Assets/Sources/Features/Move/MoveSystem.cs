@@ -1,11 +1,10 @@
 using Entitas;
 
-public sealed class MoveSystem : ISetPool, IExecuteSystem {
+public sealed class MoveSystem : IExecuteSystem {
+    readonly Group _group;
 
-    Group _group;
-
-    public void SetPool(Context pool) {
-        _group = pool.GetGroup(Matcher.AllOf(GameMatcher.Move, GameMatcher.Position));
+    public MoveSystem(Contexts contexts) {
+        _group = contexts.game.GetGroup(Matcher.AllOf(GameMatcher.Move, GameMatcher.Position));
     }
 
     public void Execute() {

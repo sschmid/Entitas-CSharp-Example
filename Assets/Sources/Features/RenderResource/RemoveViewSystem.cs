@@ -2,20 +2,30 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public sealed class RemoveViewSystem : IMultiReactiveSystem, IEnsureComponents {
+public sealed class RemoveViewSystem : ReactiveSystem {
 
-    public TriggerOnEvent[] triggers {
-        get {
-            return new [] {
-                GameMatcher.Resource.OnEntityRemoved(),
-                GameMatcher.Destroy.OnEntityAdded()
-            };
-        }
+    public RemoveViewSystem(Contexts contexts) : base(contexts.game) {
     }
 
-    public IMatcher ensureComponents { get { return GameMatcher.View; } }
+    protected override Collector GetTrigger(Context context) {
+        return new Collector(
+            new Group[] {
+                context.GetGroup(GameMatcher.Resource),
+                context.GetGroup(GameMatcher.Destroy),
+            },
+            new GroupEvent[] {
+                GroupEvent.AddedOrRemoved,
+                GroupEvent.Added
+            }
+        );
+    }
 
-    public void Execute(List<Entity> entities) {
+	protected override bool Filter(Entity entity) {
+        return entity.hasView;
+	}
+	
+
+    protected override void Execute(List<Entity> entities) {
         foreach(var e in entities) {
             Object.Destroy(e.view.gameObject);
             e.RemoveView();

@@ -1,17 +1,23 @@
 using System.Collections.Generic;
 using Entitas;
 
-public sealed class AccelerateSystem : ISetPool, IReactiveSystem {
+public sealed class AccelerateSystem : ReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return GameMatcher.Accelerating.OnEntityAddedOrRemoved(); } }
+	Group _group;
 
-    Group _group;
-
-    public void SetPool(Context pool) {
-        _group = pool.GetGroup(Matcher.AllOf(GameMatcher.Acceleratable, GameMatcher.Move));
+    public AccelerateSystem(Contexts contexts) : base(contexts.game) {
+        _group = contexts.game.GetGroup(Matcher.AllOf(GameMatcher.Acceleratable, GameMatcher.Move));
     }
 
-    public void Execute(List<Entity> entities) {
+    protected override Collector GetTrigger(Context context) {
+        return context.CreateCollector(GameMatcher.Accelerating, GroupEvent.AddedOrRemoved);
+    }
+
+    protected override bool Filter(Entity entity) {
+        return true;
+    }
+
+    protected override void Execute(List<Entity> entities) {
         var accelerate = entities.SingleEntity().isAccelerating;
         foreach(var e in _group.GetEntities()) {
             var move = e.move;

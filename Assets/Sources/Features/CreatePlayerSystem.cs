@@ -1,15 +1,15 @@
 using Entitas;
 
-public sealed class CreatePlayerSystem : ISetPool, IInitializeSystem {
+public sealed class CreatePlayerSystem : IInitializeSystem {
 
-    Context _pool;
+    Context _context;
 
-    public void SetPool(Context pool) {
-        _pool = pool;
+    public CreatePlayerSystem(Contexts contexts) {
+        _context = contexts.game;
     }
 
     public void Initialize() {
-        _pool.CreateEntity()
+        _context.CreateEntity()
             .AddResource("Player")
             .AddPosition(0, 0, 0)
             .AddMove(0, 0.025f)

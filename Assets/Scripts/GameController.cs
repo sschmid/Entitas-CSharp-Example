@@ -8,10 +8,10 @@ public class GameController : MonoBehaviour {
     void Start() {
         Random.InitState(42);
 
-        var pools = Contexts.sharedInstance;
-        pools.SetAllPools();
+        var contexts = Contexts.sharedInstance;
+        contexts.SetAllContexts();
 
-        _systems = createSystems(pools.game);
+        _systems = createSystems(contexts);
         _systems.Initialize();
     }
 
@@ -19,28 +19,28 @@ public class GameController : MonoBehaviour {
         _systems.Execute();
     }
 
-    Systems createSystems(Context pool) {
+    Systems createSystems(Contexts contexts) {
         return new Feature("Systems")
 
             // Initialize
-            .Add(pool.CreateSystem(new CreatePlayerSystem()))
-            .Add(pool.CreateSystem(new CreateOpponentsSystem()))
-            .Add(pool.CreateSystem(new CreateFinishLineSystem()))
+            .Add(new CreatePlayerSystem(contexts))
+            .Add(new CreateOpponentsSystem(contexts))
+            .Add(new CreateFinishLineSystem(contexts))
 
             // Input
-            .Add(pool.CreateSystem(new InputSystem()))
+            .Add(new InputSystem(contexts))
 
             // Update
-            .Add(pool.CreateSystem(new AccelerateSystem()))
-            .Add(pool.CreateSystem(new MoveSystem()))
-            .Add(pool.CreateSystem(new ReachedFinishSystem()))
+            .Add(new AccelerateSystem(contexts))
+            .Add(new MoveSystem(contexts))
+            .Add(new ReachedFinishSystem(contexts))
 
             // Render
-            .Add(pool.CreateSystem(new RemoveViewSystem()))
-            .Add(pool.CreateSystem(new AddViewSystem()))
-            .Add(pool.CreateSystem(new RenderPositionSystem()))
+            .Add(new RemoveViewSystem(contexts))
+            .Add(new AddViewSystem(contexts))
+            .Add(new RenderPositionSystem(contexts))
 
             // Destroy
-            .Add(pool.CreateSystem(new DestroySystem()));
+            .Add(new DestroySystem(contexts));
     }
 }

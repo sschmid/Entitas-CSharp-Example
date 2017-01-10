@@ -1,16 +1,16 @@
 using Entitas;
 using UnityEngine;
 
-public sealed class InputSystem : ISetPool, IExecuteSystem {
+public sealed class InputSystem : IExecuteSystem {
 
-    Context _pool;
+    readonly Context _context;
 
-    public void SetPool(Context pool) {
-        _pool = pool;
+    public InputSystem(Contexts contexts) {
+        _context = contexts.game;
     }
 
     public void Execute() {
-        _pool.isAccelerating =
+        _context.isAccelerating =
             Input.GetButton("Fire1") ||
             Input.GetAxisRaw("Vertical") > 0;
     }

@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public sealed class AddViewSystem : IReactiveSystem {
+public sealed class AddViewSystem : ReactiveSystem {
 
-    public TriggerOnEvent trigger { get { return GameMatcher.Resource.OnEntityAdded(); } }
+    public AddViewSystem(Contexts contexts) : base(contexts.game) {
+    }
+
+    protected override Collector GetTrigger(Context context) {
+        return context.CreateCollector(GameMatcher.Resource);
+    }
+
+    protected override bool Filter(Entity entity) {
+        return entity.hasResource;
+    }
 
     readonly Transform _viewContainer = new GameObject("Views").transform;
 
-    public void Execute(List<Entity> entities) {
+    protected override void Execute(List<Entity> entities) {
         foreach(var e in entities) {
             var res = Resources.Load<GameObject>(e.resource.name);
             GameObject gameObject = null;

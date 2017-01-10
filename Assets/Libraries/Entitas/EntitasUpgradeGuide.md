@@ -34,31 +34,6 @@ $ mono MigrationAssistant.exe 0.26.0 /Path/To/Project/RequestedFolder
 ```
 ---
 
-Entitas 0.36.0 upgrade guide
-============================
-
-#### Breaking changes
-The term `Pool` has been replaced with `Context`. This affects all classes that
-contain the word pool.
-`EntityCollector` has been renamed to `Collector`
-`GroupEventType` has been renamed to `GroupEvent`
-
-#### Before you install
-- Rename `Pools.CreatePool()` to `Pools.CreateContext`
-- Rename `Pool` to `Context`
-- Rename `Pools` to `Contexts`
-- Rename `PoolAttribute` to `ContextAttribute`
-- Rename `EntityCollector` to `Collector`
-- Rename `GroupEventType` to `GroupEvent`
-- Rename `GroupEventType.OnEntityAdded` to `GroupEvent.Added`
-- Rename `GroupEventType.OnEntityRemoved` to `GroupEvent.Removed`
-- Rename `GroupEventType.OnEntityAddedOrRemoved` to `GroupEvent.AddedOrRemoved`
-
-#### After you installed
-- Apply Apply Migration 0.36.0
-
----
-
 Entitas 0.35.0 upgrade guide
 ============================
 

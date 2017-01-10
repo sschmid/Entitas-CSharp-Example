@@ -1,15 +1,14 @@
 using Entitas;
 
-public sealed class CreateFinishLineSystem : ISetPool, IInitializeSystem {
+public sealed class CreateFinishLineSystem : IInitializeSystem {
+    readonly Context _context;
 
-    Context _pool;
-
-    public void SetPool(Context pool) {
-        _pool = pool;
+    public CreateFinishLineSystem(Contexts contexts) {
+        _context = contexts.game;
     }
 
     public void Initialize() {
-        _pool.CreateEntity()
+        _context.CreateEntity()
             .IsFinishLine(true)
             .AddResource("Finish Line")
             .AddPosition(9f, 7f, 0);
