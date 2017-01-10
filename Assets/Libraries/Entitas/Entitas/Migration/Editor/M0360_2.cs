@@ -6,7 +6,7 @@ namespace Entitas.Migration {
 
     public class M0360_2 : IMigration {
 
-        public string version { get { return "0.36.0"; } }
+        public string version { get { return "0.36.0-2"; } }
 
         public string workingDirectory { get { return "where systems are located"; } }
 
@@ -22,6 +22,7 @@ namespace Entitas.Migration {
                 file.fileContent = migrateTrigger(file.fileContent);
                 file.fileContent = migrateToFilter(file.fileContent);
                 file.fileContent = migrateSetPoolsSetPool(file.fileContent);
+                file.fileContent = migrateExecute(file.fileContent);
             }
 
             return files;
@@ -48,13 +49,14 @@ namespace Entitas.Migration {
         string renameBase(string fileContent, string name, string replacement) {
             fileContent = Regex.Replace(fileContent, @"(,\s*)" + name, ", " + replacement);
             fileContent = Regex.Replace(fileContent, @"(:\s*)" + name + @"(,\s*)", ": " + replacement);
+            fileContent = Regex.Replace(fileContent, @"(:\s*)" + name, ": " + replacement);
             return fileContent;
         }
 
         string migrateTrigger(string fileContent) {
             const string triggerPattern = @"public(\s|\n)*TriggerOnEvent(\s|\n)*trigger(\s|\n)*{(\s|\n)*get(\s|\n)*{(\s|\n)*return(\s|\n)*(?<trigger>(.|\s|\n)*?})(\s|\n)*}";
-            const string triggerEventReplacement = "__ctor_placeholder__\n\n    public Collector GetTrigger(Context context) {{\n        return context.CreateCollector({0}, GroupEvent.{1});\n    }}\n\n__filter_placeholder__";
-            const string triggerReplacement = "__ctor_placeholder__\n\n    public Collector GetTrigger(Context context) {{\n        return context.CreateCollector({0});\n    }}\n\n__filter_placeholder__";
+            const string triggerEventReplacement = "__ctor_placeholder__\n\n    protected override Collector GetTrigger(Context context) {{\n        return context.CreateCollector({0}, GroupEvent.{1});\n    }}\n\n__filter_placeholder__";
+            const string triggerReplacement = "__ctor_placeholder__\n\n    protected override Collector GetTrigger(Context context) {{\n        return context.CreateCollector({0});\n    }}\n\n__filter_placeholder__";
 
             var oldTrigger = Regex.Match(fileContent, triggerPattern).Groups["trigger"].Value;
             var groupEvent = Regex.Match(oldTrigger, @".OnEntity(?<event>\w*)").Groups["event"].Value;
@@ -178,11 +180,11 @@ namespace Entitas.Migration {
         }
 
         string migrateSetPoolsSetPool(string fileContent) {
-            const string setPoolsPattern = @"public(\s|\n)*void(\s|\n)*SetPools(\s|\n)*\((\s|\n)*Pools(\s|\n)*pools(\s|\n)*\)(\s|\n)*{(\s|\n)*(?<logic>(.|\s|\n)*?)(\s|\n)*}";
+            const string setPoolsPattern = @"public(\s|\n)*void(\s|\n)*SetPools(\s|\n)*\((\s|\n)*Contexts(\s|\n)*pools(\s|\n)*\)(\s|\n)*{(\s|\n)*(?<logic>(.|\s|\n)*?)(\s|\n)*}";
             var setPoolsLogic = Regex.Match(fileContent, setPoolsPattern).Groups["logic"].Value;
             Regex.Replace(fileContent, setPoolsPattern, string.Empty);
 
-            const string setPoolPattern = @"public(\s|\n)*void(\s|\n)*SetPool(\s|\n)*\((\s|\n)*Pool(\s|\n)*pool(\s|\n)*\)(\s|\n)*{(\s|\n)*(?<logic>(.|\s|\n)*?)(\s|\n)*}";
+            const string setPoolPattern = @"public(\s|\n)*void(\s|\n)*SetPool(\s|\n)*\((\s|\n)*Context(\s|\n)*pool(\s|\n)*\)(\s|\n)*{(\s|\n)*(?<logic>(.|\s|\n)*?)(\s|\n)*}";
             var setPoolLogic = Regex.Match(fileContent, setPoolPattern).Groups["logic"].Value;
             Regex.Replace(fileContent, setPoolPattern, string.Empty);
 
@@ -190,7 +192,7 @@ namespace Entitas.Migration {
             var className = Regex.Match(fileContent, classNamePattern).Groups["className"].Value;
 
             const string constructorFormat =
-@"public {0}() : base(context) {{
+@"public {0}(Contexts contexts) : base(context) {{
 {1}
     }}";
 
@@ -203,12 +205,38 @@ namespace Entitas.Migration {
                 construtorLogic.Add("        " + setPoolLogic);
             }
 
-            fileContent = fileContent.Replace(
-                "__ctor_placeholder__", string.Format(constructorFormat, className, string.Join("    \n", construtorLogic.ToArray()))
-            );
+            if(fileContent.Contains("__ctor_placeholder__")) {
+                fileContent = fileContent.Replace(
+                    "__ctor_placeholder__", string.Format(constructorFormat, className, string.Join("    \n", construtorLogic.ToArray()))
+                );
 
-            fileContent = Regex.Replace(fileContent, setPoolsPattern, string.Empty);
-            fileContent = Regex.Replace(fileContent, setPoolPattern, string.Empty);
+                fileContent = Regex.Replace(fileContent, setPoolsPattern, string.Empty);
+                fileContent = Regex.Replace(fileContent, setPoolPattern, string.Empty);
+            } else {
+                fileContent = Regex.Replace(fileContent, setPoolsPattern, match => "// TODO Entitas 0.36.0 Migration (constructor)\n    " + match.Value);
+                fileContent = Regex.Replace(fileContent, setPoolPattern, match => "// TODO Entitas 0.36.0 Migration (constructor)\n    " + match.Value);
+            }
+
+            return fileContent;
+        }
+
+        string migrateExecute(string fileContent) {
+            const string reactiveSystemExecute = @"public(\s|\n)*void(\s|\n)*Execute(\s|\n)*\((\s|\n)*List";
+            const string reactiveSystemExecuteUsing = @"public(\s|\n)*void(\s|\n)*Execute(\s|\n)*\((\s|\n)*System.Collections.Generic.List";
+
+            if(Regex.IsMatch(fileContent, reactiveSystemExecuteUsing)) {
+                fileContent = Regex.Replace(
+                    fileContent,
+                    reactiveSystemExecute,
+                    "protected override void Execute(System.Collections.Generic.List"
+                );
+            } else if(Regex.IsMatch(fileContent, reactiveSystemExecute)) {
+                fileContent = Regex.Replace(
+                    fileContent,
+                    reactiveSystemExecute,
+                    "protected override void Execute(List"
+                );
+            }
 
             return fileContent;
         }
