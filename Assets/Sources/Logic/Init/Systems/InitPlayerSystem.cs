@@ -1,10 +1,10 @@
 using Entitas;
 
-public sealed class CreatePlayerSystem : IInitializeSystem {
+public sealed class InitPlayerSystem : IInitializeSystem {
 
     Context _context;
 
-    public CreatePlayerSystem(Contexts contexts) {
+    public InitPlayerSystem(Contexts contexts) {
         _context = contexts.game;
     }
 

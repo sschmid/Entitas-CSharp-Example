@@ -9,19 +9,17 @@
 public static class GameComponentIds {
 
     public const int Acceleratable = 0;
-    public const int Accelerating = 1;
-    public const int Asset = 2;
-    public const int Destroyed = 3;
-    public const int FinishLine = 4;
-    public const int Move = 5;
-    public const int Position = 6;
-    public const int View = 7;
+    public const int Asset = 1;
+    public const int Destroyed = 2;
+    public const int FinishLine = 3;
+    public const int Move = 4;
+    public const int Position = 5;
+    public const int View = 6;
 
-    public const int TotalComponents = 8;
+    public const int TotalComponents = 7;
 
     public static readonly string[] componentNames = {
         "Acceleratable",
-        "Accelerating",
         "Asset",
         "Destroyed",
         "FinishLine",
@@ -32,7 +30,6 @@ public static class GameComponentIds {
 
     public static readonly System.Type[] componentTypes = {
         typeof(AcceleratableComponent),
-        typeof(AcceleratingComponent),
         typeof(AssetComponent),
         typeof(DestroyedComponent),
         typeof(FinishLineComponent),

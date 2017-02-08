@@ -15,13 +15,13 @@ namespace Entitas {
         static readonly AcceleratingComponent acceleratingComponent = new AcceleratingComponent();
 
         public bool isAccelerating {
-            get { return HasComponent(GameComponentIds.Accelerating); }
+            get { return HasComponent(InputComponentIds.Accelerating); }
             set {
                 if(value != isAccelerating) {
                     if(value) {
-                        AddComponent(GameComponentIds.Accelerating, acceleratingComponent);
+                        AddComponent(InputComponentIds.Accelerating, acceleratingComponent);
                     } else {
-                        RemoveComponent(GameComponentIds.Accelerating);
+                        RemoveComponent(InputComponentIds.Accelerating);
                     }
                 }
             }
@@ -35,7 +35,7 @@ namespace Entitas {
 
     public partial class Context {
 
-        public Entity acceleratingEntity { get { return GetGroup(GameMatcher.Accelerating).GetSingleEntity(); } }
+        public Entity acceleratingEntity { get { return GetGroup(InputMatcher.Accelerating).GetSingleEntity(); } }
 
         public bool isAccelerating {
             get { return acceleratingEntity != null; }
@@ -53,15 +53,15 @@ namespace Entitas {
     }
 }
 
-    public partial class GameMatcher {
+    public partial class InputMatcher {
 
         static IMatcher _matcherAccelerating;
 
         public static IMatcher Accelerating {
             get {
                 if(_matcherAccelerating == null) {
-                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.Accelerating);
-                    matcher.componentNames = GameComponentIds.componentNames;
+                    var matcher = (Matcher)Matcher.AllOf(InputComponentIds.Accelerating);
+                    matcher.componentNames = InputComponentIds.componentNames;
                     _matcherAccelerating = matcher;
                 }
 

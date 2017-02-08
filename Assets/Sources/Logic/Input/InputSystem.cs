@@ -6,7 +6,7 @@ public sealed class InputSystem : IExecuteSystem {
     readonly Context _context;
 
     public InputSystem(Contexts contexts) {
-        _context = contexts.game;
+        _context = contexts.input;
     }
 
     public void Execute() {

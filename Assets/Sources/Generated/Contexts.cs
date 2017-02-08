@@ -14,12 +14,18 @@ namespace Entitas {
             return CreateContext("Game", GameComponentIds.TotalComponents, GameComponentIds.componentNames, GameComponentIds.componentTypes);
         }
 
-        public Context[] allContexts { get { return new [] { game }; } }
+        public static Context CreateInputContext() {
+            return CreateContext("Input", InputComponentIds.TotalComponents, InputComponentIds.componentNames, InputComponentIds.componentTypes);
+        }
+
+        public Context[] allContexts { get { return new [] { game, input }; } }
 
         public Context game;
+        public Context input;
 
         public void SetAllContexts() {
             game = CreateGameContext();
+            input = CreateInputContext();
         }
     }
 }

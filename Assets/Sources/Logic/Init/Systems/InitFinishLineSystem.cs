@@ -1,10 +1,10 @@
 using Entitas;
 
-public sealed class CreateFinishLineSystem : IInitializeSystem {
+public sealed class InitFinishLineSystem : IInitializeSystem {
 
     readonly Context _context;
 
-    public CreateFinishLineSystem(Contexts contexts) {
+    public InitFinishLineSystem(Contexts contexts) {
         _context = contexts.game;
     }
 

@@ -1,6 +1,6 @@
 using Entitas;
 using Entitas.CodeGenerator;
 
-[Game, SingleEntity]
+[Input, SingleEntity]
 public sealed class AcceleratingComponent : IComponent {
 }

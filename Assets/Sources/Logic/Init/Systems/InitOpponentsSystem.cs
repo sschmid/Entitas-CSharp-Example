@@ -1,11 +1,11 @@
 using Entitas;
 using UnityEngine;
 
-public sealed class CreateOpponentsSystem : IInitializeSystem {
+public sealed class InitOpponentsSystem : IInitializeSystem {
 
     readonly Context _context;
 
-    public CreateOpponentsSystem(Contexts contexts) {
+    public InitOpponentsSystem(Contexts contexts) {
         _context = contexts.game;
     }
 

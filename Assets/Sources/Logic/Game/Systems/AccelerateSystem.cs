@@ -5,12 +5,12 @@ public sealed class AccelerateSystem : ReactiveSystem {
 
 	Group _group;
 
-    public AccelerateSystem(Contexts contexts) : base(contexts.game) {
+    public AccelerateSystem(Contexts contexts) : base(contexts.input) {
         _group = contexts.game.GetGroup(Matcher.AllOf(GameMatcher.Acceleratable, GameMatcher.Move));
     }
 
     protected override Collector GetTrigger(Context context) {
-        return context.CreateCollector(GameMatcher.Accelerating, GroupEvent.AddedOrRemoved);
+        return context.CreateCollector(InputMatcher.Accelerating, GroupEvent.AddedOrRemoved);
     }
 
     protected override bool Filter(Entity entity) {
