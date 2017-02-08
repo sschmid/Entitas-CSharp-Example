@@ -2,7 +2,7 @@ using Entitas;
 
 public sealed class InitPlayerSystem : IInitializeSystem {
 
-    Context _context;
+    GameContext _context;
 
     public InitPlayerSystem(Contexts contexts) {
         _context = contexts.game;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public sealed class InputSystem : IExecuteSystem {
 
-    readonly Context _context;
+    readonly InputContext _context;
 
     public InputSystem(Contexts contexts) {
         _context = contexts.input;

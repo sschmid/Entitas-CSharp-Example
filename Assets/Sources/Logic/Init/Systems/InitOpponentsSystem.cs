@@ -3,7 +3,7 @@ using UnityEngine;
 
 public sealed class InitOpponentsSystem : IInitializeSystem {
 
-    readonly Context _context;
+    readonly GameContext _context;
 
     public InitOpponentsSystem(Contexts contexts) {
         _context = contexts.game;

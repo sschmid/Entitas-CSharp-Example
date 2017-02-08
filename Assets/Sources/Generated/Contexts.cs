@@ -6,26 +6,42 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace Entitas {
+using Entitas;
+            
+public partial class Contexts : IContexts {
 
-    public partial class Contexts {
+    public static Contexts sharedInstance {
+        get {
+            if(_sharedInstance == null) {
+                _sharedInstance = new Contexts();
+            }
 
-        public static Context CreateGameContext() {
-            return CreateContext("Game", GameComponentIds.TotalComponents, GameComponentIds.componentNames, GameComponentIds.componentTypes);
+            return _sharedInstance;
         }
+        set { _sharedInstance = value; }
+    }
 
-        public static Context CreateInputContext() {
-            return CreateContext("Input", InputComponentIds.TotalComponents, InputComponentIds.componentNames, InputComponentIds.componentTypes);
+    static Contexts _sharedInstance;
+
+    public static void CreateContextObserver(IContext context) {
+#if(!ENTITAS_DISABLE_VISUAL_DEBUGGING && UNITY_EDITOR)
+        if(UnityEngine.Application.isPlaying) {
+            var observer = new Entitas.Unity.VisualDebugging.ContextObserver(context);
+            UnityEngine.Object.DontDestroyOnLoad(observer.gameObject);
         }
+#endif
+    }
 
-        public Context[] allContexts { get { return new [] { game, input }; } }
+    public GameContext game { get; set; }
+    public InputContext input { get; set; }
 
-        public Context game;
-        public Context input;
+    public IContext[] allContexts { get { return new IContext [] { game, input }; } }
 
-        public void SetAllContexts() {
-            game = CreateGameContext();
-            input = CreateInputContext();
-        }
+    public virtual void SetAllContexts() {
+        game = new GameContext();
+        input = new InputContext();
+
+        CreateContextObserver(game);
+        CreateContextObserver(input);
     }
 }

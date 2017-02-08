@@ -2,10 +2,10 @@ using Entitas;
 
 public sealed class MoveSystem : IExecuteSystem {
 
-    readonly Group _group;
+    readonly IGroup<GameEntity> _group;
 
     public MoveSystem(Contexts contexts) {
-        _group = contexts.game.GetGroup(Matcher.AllOf(GameMatcher.Move, GameMatcher.Position));
+        _group = contexts.game.GetGroup(Matcher<GameEntity>.AllOf(GameMatcher.Move, GameMatcher.Position));
     }
 
     public void Execute() {

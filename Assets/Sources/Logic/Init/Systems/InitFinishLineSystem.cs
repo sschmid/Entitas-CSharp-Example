@@ -2,7 +2,7 @@ using Entitas;
 
 public sealed class InitFinishLineSystem : IInitializeSystem {
 
-    readonly Context _context;
+    readonly GameContext _context;
 
     public InitFinishLineSystem(Contexts contexts) {
         _context = contexts.game;
