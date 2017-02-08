@@ -1,6 +1,7 @@
 using Entitas;
 
 public sealed class CreateFinishLineSystem : IInitializeSystem {
+
     readonly Context _context;
 
     public CreateFinishLineSystem(Contexts contexts) {

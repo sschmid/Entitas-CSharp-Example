@@ -2,6 +2,7 @@ using Entitas;
 using UnityEngine;
 
 public sealed class CreateOpponentsSystem : IInitializeSystem {
+
     readonly Context _context;
 
     public CreateOpponentsSystem(Contexts contexts) {

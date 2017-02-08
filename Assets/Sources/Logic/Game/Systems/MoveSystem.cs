@@ -1,6 +1,7 @@
 using Entitas;
 
 public sealed class MoveSystem : IExecuteSystem {
+
     readonly Group _group;
 
     public MoveSystem(Contexts contexts) {

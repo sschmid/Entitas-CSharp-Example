@@ -23,22 +23,16 @@ public class GameController : MonoBehaviour {
         return new Feature("Systems")
 
             // Initialize
-            .Add(new CreatePlayerSystem(contexts))
-            .Add(new CreateOpponentsSystem(contexts))
-            .Add(new CreateFinishLineSystem(contexts))
+            .Add(new InitSystems(contexts))
 
             // Input
             .Add(new InputSystem(contexts))
 
             // Update
-            .Add(new AccelerateSystem(contexts))
-            .Add(new MoveSystem(contexts))
-            .Add(new ReachedFinishSystem(contexts))
+            .Add(new GameSystems(contexts))
 
             // Render
-            .Add(new RemoveViewSystem(contexts))
-            .Add(new AddViewSystem(contexts))
-            .Add(new RenderPositionSystem(contexts))
+            .Add(new ViewSystems(contexts))
 
             // Destroy
             .Add(new DestroySystem(contexts));

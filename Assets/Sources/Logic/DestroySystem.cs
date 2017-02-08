@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Entitas;
 
 public sealed class DestroySystem : ReactiveSystem {
+
     readonly Context _context;
 
     public DestroySystem(Contexts contexts) : base(contexts.game) {
