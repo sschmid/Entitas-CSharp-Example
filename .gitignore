@@ -19,7 +19,6 @@ obj
 test-results
 
 # Custom
-Entitas Example-csharp.sln
-Entitas Example.sln
+Entitas-CSharp-Example.sln
 
 ProjectVersion.txt

@@ -9,10 +9,10 @@ public sealed class CreatePlayerSystem : IInitializeSystem {
     }
 
     public void Initialize() {
-        _context.CreateEntity()
-            .AddResource("Player")
-            .AddPosition(0, 0, 0)
-            .AddMove(0, 0.025f)
-            .IsAcceleratable(true);
+        var e = _context.CreateEntity();
+        e.AddAsset("Player");
+        e.AddPosition(0, 0, 0);
+        e.AddMove(0, 0.025f);
+        e.isAcceleratable = true;
     }
 }

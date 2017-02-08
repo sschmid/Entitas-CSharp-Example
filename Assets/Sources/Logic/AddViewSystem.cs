@@ -9,23 +9,23 @@ public sealed class AddViewSystem : ReactiveSystem {
     }
 
     protected override Collector GetTrigger(Context context) {
-        return context.CreateCollector(GameMatcher.Resource);
+		return context.CreateCollector(GameMatcher.Asset);
     }
 
     protected override bool Filter(Entity entity) {
-        return entity.hasResource;
+		return entity.hasAsset;
     }
 
     readonly Transform _viewContainer = new GameObject("Views").transform;
 
     protected override void Execute(List<Entity> entities) {
         foreach(var e in entities) {
-            var res = Resources.Load<GameObject>(e.resource.name);
+			var assetName = Resources.Load<GameObject>(e.asset.name);
             GameObject gameObject = null;
             try {
-                gameObject = UnityEngine.Object.Instantiate(res);
+                gameObject = UnityEngine.Object.Instantiate(assetName);
             } catch(Exception) {
-                Debug.Log("Cannot instantiate " + res);
+                Debug.Log("Cannot instantiate " + assetName);
             }
 
             if(gameObject != null) {

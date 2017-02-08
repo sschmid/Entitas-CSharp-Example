@@ -9,11 +9,11 @@ public sealed class DestroySystem : ReactiveSystem {
     }
 
     protected override Collector GetTrigger(Context context) {
-        return context.CreateCollector(GameMatcher.Destroy);
+        return context.CreateCollector(GameMatcher.Destroyed);
     }
 
     protected override bool Filter(Entity entity) {
-        return entity.isDestroy;
+        return entity.isDestroyed;
     }
 
     protected override void Execute(List<Entity> entities) {

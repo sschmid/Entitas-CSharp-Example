@@ -10,8 +10,8 @@ public sealed class RemoveViewSystem : ReactiveSystem {
     protected override Collector GetTrigger(Context context) {
         return new Collector(
             new Group[] {
-                context.GetGroup(GameMatcher.Resource),
-                context.GetGroup(GameMatcher.Destroy),
+                context.GetGroup(GameMatcher.Asset),
+                context.GetGroup(GameMatcher.Destroyed),
             },
             new GroupEvent[] {
                 GroupEvent.AddedOrRemoved,

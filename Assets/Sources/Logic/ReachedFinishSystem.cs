@@ -21,7 +21,7 @@ public sealed class ReachedFinishSystem : ReactiveSystem {
         var finishLinePosY = _context.finishLineEntity.position.y;
         foreach(var e in entities) {
             if(e.position.y > finishLinePosY) {
-                e.isDestroy = true;
+                e.isDestroyed = true;
             }
         }
     }

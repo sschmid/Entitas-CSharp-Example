@@ -12,10 +12,10 @@ public sealed class CreateOpponentsSystem : IInitializeSystem {
         const string resourceName = "Opponent";
         for(int i = 1; i < 10; i++) {
             var speed = Random.value * 0.02f;
-            _context.CreateEntity()
-                .AddResource(resourceName)
-                .AddPosition(i + i, 0, 0)
-                .AddMove(speed, speed);
+            var e = _context.CreateEntity();
+            e.AddAsset(resourceName);
+            e.AddPosition(i + i, 0, 0);
+            e.AddMove(speed, speed);
         }
     }
 }

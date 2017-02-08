@@ -12,23 +12,23 @@ namespace Entitas {
 
     public partial class Entity {
 
-        static readonly DestroyComponent destroyComponent = new DestroyComponent();
+        static readonly DestroyedComponent destroyedComponent = new DestroyedComponent();
 
-        public bool isDestroy {
-            get { return HasComponent(GameComponentIds.Destroy); }
+        public bool isDestroyed {
+            get { return HasComponent(GameComponentIds.Destroyed); }
             set {
-                if(value != isDestroy) {
+                if(value != isDestroyed) {
                     if(value) {
-                        AddComponent(GameComponentIds.Destroy, destroyComponent);
+                        AddComponent(GameComponentIds.Destroyed, destroyedComponent);
                     } else {
-                        RemoveComponent(GameComponentIds.Destroy);
+                        RemoveComponent(GameComponentIds.Destroyed);
                     }
                 }
             }
         }
 
-        public Entity IsDestroy(bool value) {
-            isDestroy = value;
+        public Entity IsDestroyed(bool value) {
+            isDestroyed = value;
             return this;
         }
     }
@@ -36,17 +36,17 @@ namespace Entitas {
 
     public partial class GameMatcher {
 
-        static IMatcher _matcherDestroy;
+        static IMatcher _matcherDestroyed;
 
-        public static IMatcher Destroy {
+        public static IMatcher Destroyed {
             get {
-                if(_matcherDestroy == null) {
-                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.Destroy);
+                if(_matcherDestroyed == null) {
+                    var matcher = (Matcher)Matcher.AllOf(GameComponentIds.Destroyed);
                     matcher.componentNames = GameComponentIds.componentNames;
-                    _matcherDestroy = matcher;
+                    _matcherDestroyed = matcher;
                 }
 
-                return _matcherDestroy;
+                return _matcherDestroyed;
             }
         }
     }

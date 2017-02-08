@@ -8,9 +8,9 @@ public sealed class CreateFinishLineSystem : IInitializeSystem {
     }
 
     public void Initialize() {
-        _context.CreateEntity()
-            .IsFinishLine(true)
-            .AddResource("Finish Line")
-            .AddPosition(9f, 7f, 0);
+		var e = _context.CreateEntity();
+		e.isFinishLine = true;
+		e.AddAsset("Finish Line");
+		e.AddPosition(9f, 7f, 0);
     }
 }
